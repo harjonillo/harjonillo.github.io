@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+}
+
+const { pub } = Astro.props;
+const { title, venue, year, doi, authors, note } = pub.data;
+---
+
+<div class="pub">
+  <p class="title">{title}</p>
+  <p class="venue muted">
+    {venue} · {year}{doi && <> · <a href={`https://doi.org/${doi}`}>doi:{doi}</a></>}
+  </p>
+  <p class="authors muted">{authors}</p>
+  {note && <p class="meta" style="margin-top:0.3rem;">{note}</p>}
+</div>

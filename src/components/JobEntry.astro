@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Pill from './Pill.astro';
+
+interface Props {
+  job: CollectionEntry<'jobs'>;
+}
+
+const { job } = Astro.props;
+const { Content } = await render(job);
+---
+
+<div class="job">
+  <div class="meta">{job.data.start} — {job.data.end}</div>
+  <div>
+    <h3>{job.data.company}</h3>
+    <p class="role">{job.data.role}</p>
+    <div class="muted">
+      <Content />
+    </div>
+    {
+      job.data.tags.length > 0 && (
+        <div>
+          {job.data.tags.map((tag) => (
+            <Pill>{tag}</Pill>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>

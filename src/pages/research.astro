@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import EducationEntry from '../components/EducationEntry.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Pill from '../components/Pill.astro';
+import Publication from '../components/Publication.astro';
+
+const publications = (await getCollection('publications')).sort(
+  (a, b) => b.data.year - a.data.year,
+);
+const education = (await getCollection('education')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const interests = [
+  'hyperspectral unmixing',
+  'complex systems',
+  'audio & music information retrieval',
+  'physiological signal processing',
+];
+---
+
+<Base
+  title="Research & Education — Hannah Arjonillo"
+  description="Signals, spectra, and social systems: hyperspectral unmixing, complex systems, audio signal analysis — and the education behind them."
+>
+  <Eyebrow>Research & Education</Eyebrow>
+  <h1 class="page-title">Signals, spectra, and social systems</h1>
+
+  <section>
+    <h2>Current</h2>
+    <Card>
+      <span class="meta">PhD Physics · UP Diliman, National Institute of Physics · 2025 — Present </span>
+      <p style="margin-top:0.5rem;">
+        Hyperspectral unmixing methodologies applied to Philippine senatorial
+        voting patterns — treating election data as a mixed spectral signal and
+        recovering the interpretable source components underneath.
+      </p>
+      <p class="muted" style="margin-top:0.6rem; font-size:0.9rem;">
+        Adviser: May T. Lim, PhD.
+      </p>
+    </Card>
+  </section>
+
+  <section>
+    <h2>Publications</h2>
+    {publications.map((pub) => <Publication pub={pub} />)}
+  </section>
+
+  <section>
+    <h2>Interests</h2>
+    <div>
+      {interests.map((interest) => <Pill alt>{interest}</Pill>)}
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    {education.map((entry) => <EducationEntry entry={entry} />)}
+  </section>
+</Base>

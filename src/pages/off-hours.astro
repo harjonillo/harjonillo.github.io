@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+---
+
+<Base
+  title="Off hours — Hannah Arjonillo"
+  description="Art, a recipe box that takes measurement seriously, and lists of favorite things."
+>
+  <Eyebrow>Off hours</Eyebrow>
+  <h1 class="page-title">Things created & consumed</h1>
+
+  <section class="quick-cards" style="margin-top:1rem;">
+    <div class="grid2">
+      <Card href="/art">
+        <h3>Art</h3>
+        <p class="muted">Ink, watercolor, acrylic — scans and photos of pieces from off hours.</p>
+      </Card>
+      <Card href="/recipes">
+        <h3>Recipes</h3>
+        <p class="muted">Recipes measured in grams, with servings that scale themselves.</p>
+      </Card>
+      <Card href="/lists">
+        <h3>Lists of things consumed</h3>
+        <p class="muted">Films by director, TV &amp; anime, favorite humans, and where to eat in the Philippines.</p>
+      </Card>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,11 @@
+/* Design tokens — single source of truth (locked, see astro-project-brief.md §3) */
+:root {
+  --bg:       #FFF9F2;  /* page background */
+  --card:     #FFFDFA;  /* raised surfaces */
+  --brown:    #473D3D;  /* headings, primary text accents */
+  --charcoal: #364958;  /* body text, dark surfaces */
+  --cyan:     #55828B;  /* metadata, links, ALL hover/interaction states */
+  --mauve:    #DA85FF;  /* favorite stars on /lists — never a hover state */
+
+  --maxw: 880px;
+}

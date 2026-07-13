@@ -1,0 +1,9 @@
+---
+interface Props {
+  alt?: boolean;
+}
+
+const { alt = false } = Astro.props;
+---
+
+<span class:list={['pill', { alt }]}><slot /></span>

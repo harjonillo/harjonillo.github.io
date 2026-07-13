@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Card from '../../components/Card.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import RecipeScaler from '../../components/islands/RecipeScaler.tsx';
+
+const recipes = await getCollection('recipes');
+---
+
+<Base
+  title="Recipes — Hannah Arjonillo"
+  description="The recipe box — measured in grams, scaled on demand."
+>
+  <Eyebrow>Off hours</Eyebrow>
+  <h1 class="page-title">Recipes</h1>
+
+  <section class="grid2">
+    {
+      recipes.map((recipe) => (
+        <Card class="recipe-card">
+          <span class="meta">{recipe.data.category}</span>
+          <h3 style="margin-top:0.4rem;">
+            <a href={`/recipes/${recipe.id}`}>{recipe.data.title}</a>
+          </h3>
+          <RecipeScaler
+            client:visible
+            baseServings={recipe.data.baseServings}
+            servingUnit={recipe.data.servingUnit}
+            ingredients={recipe.data.ingredients}
+          />
+          <p class="meta" style="margin-top:0.8rem;">full recipe →</p>
+        </Card>
+      ))
+    }
+  </section>
+</Base>

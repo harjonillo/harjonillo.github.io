@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+---
+
+<Base
+  title="Hannah Arjonillo — data scientist · physics PhD researcher"
+  description="Six years of production ML on physiological time-series, currently pursuing a Physics PhD on hyperspectral unmixing."
+>
+  <section class="hero">
+    <Eyebrow>Data scientist · Physics PhD researcher · Metro Manila (GMT+8)</Eyebrow>
+    <h1>Hannah Arjonillo</h1>
+    <p class="lede">
+      Six years of production DS/AI/ML on physiological time-series, behavioral health conversations, and EMRs. Currently pursuing
+      a Physics PhD.
+    </p>
+    <div class="cta-row">
+      {/* TODO: drop the real PDF into public/cv/ */}
+      <a class="btn primary" href="/cv/hannah-arjonillo-cv.pdf">Download CV</a>
+      <a class="btn ghost" href="/projects">See projects →</a>
+    </div>
+  </section>
+
+  <section class="quick-cards">
+    <Eyebrow>Explore</Eyebrow>
+    <div class="grid2">
+      <Card href="/work">
+        <h3>Work</h3>
+        <p class="muted">Biomedical wearables, behavioral health conversations, EMR</p>
+      </Card>
+      <Card href="/research">
+        <h3>Research</h3>
+        <p class="muted">Hyperspectral unmixing, complex systems, and audio signal analysis</p>
+      </Card>
+      <Card href="/projects">
+        <h3>Projects</h3>
+        <p class="muted">An interactive optical bench, chord recognition on Chopin, and this site</p>
+      </Card>
+      <Card href="/off-hours">
+        <h3>Off hours</h3>
+        <p class="muted">Art, recipes, and lists of various favorite things</p>
+      </Card>
+    </div>
+  </section>
+</Base>

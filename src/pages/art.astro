@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import ArtGallery from '../components/islands/ArtGallery.tsx';
+
+// TODO: once real scans land, run images through getImage() for optimized
+// variants instead of passing the raw src.
+const pieces = (await getCollection('art')).map((piece) => ({
+  title: piece.data.title,
+  medium: piece.data.medium,
+  year: piece.data.year,
+  image: piece.data.image?.src,
+}));
+---
+
+<Base
+  title="Art — Hannah Arjonillo"
+  description="Off hours: ink, watercolor, and acrylic."
+>
+  <Eyebrow>Off hours</Eyebrow>
+  <h1 class="page-title">Art</h1>
+
+  <ArtGallery client:visible pieces={pieces} />
+
+</Base>

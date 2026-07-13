@@ -1,0 +1,39 @@
+---
+const links = [
+  { href: '/', label: 'home' },
+  { href: '/work', label: 'work' },
+  { href: '/research', label: 'research & education' },
+  { href: '/projects', label: 'projects' },
+  // The off-hours wing: hub page plus its sub-pages all light up this tab.
+  { href: '/off-hours', label: 'off hours', match: ['/off-hours', '/art', '/recipes', '/lists'] },
+];
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+// The hero already carries the name on the home page — hide the wordmark
+// there but keep its space so the tabs don't shift between pages.
+const isHome = path === '/';
+const matches = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+const isCurrent = (link: (typeof links)[number]) =>
+  (link.match ?? [link.href]).some(matches);
+---
+
+<header class="site-header">
+  <nav aria-label="Site">
+    <a
+      class:list={['logo', { 'is-hidden': isHome }]}
+      href="/"
+      aria-hidden={isHome ? 'true' : undefined}
+      tabindex={isHome ? -1 : undefined}
+    >
+      hannah arjonillo
+    </a>
+    {
+      links.map((link) => (
+        <a href={link.href} aria-current={isCurrent(link) ? 'page' : undefined}>
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>

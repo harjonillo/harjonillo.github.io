@@ -1,0 +1,149 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import FlipCards from '../components/islands/FlipCards.tsx';
+
+const lists = (await getCollection('lists')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  lists.map(async (list) => ({ list, Content: (await render(list)).Content })),
+);
+
+// Parse the raw Markdown checklists to build the flip-card answer pools.
+// Convention: `- [x]` consumed, trailing `*` favorite, `_..._` note, `###` section.
+type ParsedItem = { text: string; checked: boolean; fav: boolean; section: string };
+
+function parseItems(body: string): ParsedItem[] {
+  const items: ParsedItem[] = [];
+  let section = '';
+  for (const line of body.split('\n')) {
+    const heading = line.match(/^###\s+(.+)/);
+    if (heading) {
+      section = heading[1].trim().toLowerCase();
+      continue;
+    }
+    const item = line.match(/^- (?:\[([ x])\] )?(.+)/);
+    if (!item) continue;
+    const fav = item[2].includes('*');
+    const text = item[2]
+      .replace(/_[^_]+_/g, '') // strip notes
+      .replace(/\*/g, '') // strip favorite markers
+      .replace(/\s+/g, ' ')
+      .trim();
+    items.push({ text, checked: item[1] === 'x', fav, section });
+  }
+  return items;
+}
+
+const parsed = new Map(lists.map((list) => [list.id, parseItems(list.body ?? '')]));
+const favorites = (id: string) =>
+  (parsed.get(id) ?? []).filter((i) => i.fav).map((i) => i.text);
+const inSection = (id: string, section: string) =>
+  (parsed.get(id) ?? []).filter((i) => i.section === section).map((i) => i.text);
+
+const cards = [
+  { question: 'what to watch?', items: [...favorites('films'), ...favorites('tv-anime')] },
+  { question: 'where to eat?', items: favorites('food-spots') },
+  {
+    question: 'whose work to check out?',
+    items: [...inSection('humans', 'artists'), ...inSection('humans', 'musicians')],
+  },
+];
+---
+
+<Base
+  title="The lists — Hannah Arjonillo"
+  description="Films by director, TV & anime, favorite humans, and where to eat"
+>
+  <Eyebrow>Off hours</Eyebrow>
+  <h1 class="page-title">Lists of things consumed</h1>
+  <p class="muted" style="max-width:58ch;">
+    Things consumed and queued — kept so that when someone asks for a
+    recommendation, I don't come up blank on the spot.
+  </p>
+
+  <FlipCards client:load cards={cards} />
+
+  <div class="art-filters list-filters" role="group" aria-label="Filter list items">
+    <button class="on" data-filter="all">all</button>
+    <button data-filter="fav"><span class="fi-star">★</span> favorites</button>
+    <button data-filter="consumed"><span class="fi-x">[x]</span> consumed</button>
+    <button data-filter="queued"><span class="fi-o">[ ]</span> queued</button>
+  </div>
+
+  <div class="lists-layout">
+    <aside class="lists-toc" aria-label="Jump to a list">
+      {lists.map((list) => <a href={`#${list.id}`}>{list.data.title}</a>)}
+    </aside>
+    <div class="lists-content">
+      {
+        rendered.map(({ list, Content }) => (
+          <section class="list-body" id={list.id}>
+            <h2>{list.data.title}</h2>
+            <Content />
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</Base>
+
+<script>
+  // --- filter chips ---
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.list-filters button');
+  const sections = document.querySelectorAll<HTMLElement>('.list-body');
+
+  function applyFilter(filter: string) {
+    sections.forEach((section) => {
+      section.querySelectorAll<HTMLLIElement>('li').forEach((li) => {
+        const input = li.querySelector('input');
+        const isTask = li.classList.contains('task-list-item');
+        const checked = input instanceof HTMLInputElement && input.checked;
+        const fav = li.querySelector('.fav') !== null;
+        let show = true;
+        if (filter === 'fav') show = fav;
+        else if (filter === 'consumed') show = isTask && checked;
+        else if (filter === 'queued') show = isTask && !checked;
+        li.style.display = show ? '' : 'none';
+      });
+      // hide subheads and lists that filtered down to nothing
+      section.querySelectorAll<HTMLUListElement>('ul').forEach((ul) => {
+        const any = [...ul.children].some(
+          (li) => li instanceof HTMLElement && li.style.display !== 'none',
+        );
+        ul.style.display = any ? '' : 'none';
+        const prev = ul.previousElementSibling;
+        if (prev instanceof HTMLElement && prev.tagName === 'H3') {
+          prev.style.display = any ? '' : 'none';
+        }
+      });
+      const anyVisible = [...section.querySelectorAll<HTMLLIElement>('li')].some(
+        (li) => li.style.display !== 'none',
+      );
+      section.style.display = anyVisible ? '' : 'none';
+    });
+  }
+
+  filterButtons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      filterButtons.forEach((b) => b.classList.remove('on'));
+      btn.classList.add('on');
+      applyFilter(btn.dataset.filter ?? 'all');
+    }),
+  );
+
+  // --- scroll-spy sidebar ---
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.lists-toc a');
+  const spy = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        tocLinks.forEach((a) =>
+          a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`),
+        );
+      }
+    },
+    { rootMargin: '-15% 0px -75% 0px' },
+  );
+  sections.forEach((section) => spy.observe(section));
+</script>

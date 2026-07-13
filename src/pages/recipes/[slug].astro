@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import RecipeScaler from '../../components/islands/RecipeScaler.tsx';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.id },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+---
+
+<Base
+  title={`${recipe.data.title} — Hannah Arjonillo`}
+  description={`Recipe: ${recipe.data.title}.`}
+>
+  <div class="recipe-page">
+    <Eyebrow>{recipe.data.category}</Eyebrow>
+    <h1 class="page-title">{recipe.data.title}</h1>
+
+    <RecipeScaler
+      client:visible
+      baseServings={recipe.data.baseServings}
+      servingUnit={recipe.data.servingUnit}
+      ingredients={recipe.data.ingredients}
+    />
+
+    <div class="method">
+      <Content />
+    </div>
+
+    <p style="margin-top:2.5rem;"><a href="/recipes">← Back to the recipe box</a></p>
+  </div>
+</Base>

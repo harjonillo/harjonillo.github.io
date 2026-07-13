@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import JobEntry from '../components/JobEntry.astro';
+
+const jobs = (await getCollection('jobs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Work — Hannah Arjonillo"
+  description="AI, ML, and data science: biomedical wearables, telecom, health insurance — production ML end to end."
+>
+  <Eyebrow>Work experience</Eyebrow>
+  <h1 class="page-title">AI, ML, and data science</h1>
+
+  <section>
+    {jobs.map((job) => <JobEntry job={job} />)}
+  </section>
+</Base>

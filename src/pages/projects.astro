@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import OpticalBench from '../components/islands/OpticalBench.tsx';
+
+const projects = await getCollection('projects');
+const rendered = await Promise.all(
+  projects.map(async (project) => ({ project, Content: (await render(project)).Content })),
+);
+const featured = rendered.filter(({ project }) => project.data.featured);
+const rest = rendered.filter(({ project }) => !project.data.featured);
+---
+
+<Base
+  title="Projects — Hannah Arjonillo"
+  description="Things you can click: an interactive optical bench, chord recognition on Chopin, and this site."
+>
+  <Eyebrow>Projects</Eyebrow>
+  <h1 class="page-title">Things you can click</h1>
+
+  {
+    featured.map(({ project, Content }) => (
+      <section class="feature">
+        <div>
+          <span class="meta">FEATURED{project.data.demo && ' · LIVE DEMO'}</span>
+          <h3>{project.data.title}</h3>
+          <div class="feature-body">
+            <Content />
+          </div>
+          <p class="meta" style="margin-top: 0.8rem;">
+            {project.data.stack.join(' · ')}
+          </p>
+          {project.data.repo && (
+            <div class="project-links">
+              <a href={project.data.repo}>Repo →</a>
+            </div>
+          )}
+        </div>
+        {/* The featured project is the optical bench; the island renders a
+            placeholder until the simulator has a deployed URL (demo field). */}
+        <OpticalBench client:only="react" src={project.data.demo} />
+      </section>
+    ))
+  }
+
+  <section class="grid2">
+    {
+      rest.map(({ project, Content }) => (
+        <Card>
+          <span class="meta">{project.data.category}</span>
+          <h3 style="margin-top:0.4rem;">{project.data.title}</h3>
+          <div class="muted" style="font-size:0.93rem;">
+            <Content />
+          </div>
+          <p class="meta" style="margin-top:0.7rem;">
+            {project.data.stack.join(' · ')}
+          </p>
+          {(project.data.repo || project.data.demo) && (
+            <div class="project-links">
+              {project.data.repo && <a href={project.data.repo}>Repo →</a>}
+              {project.data.demo && <a href={project.data.demo}>Demo →</a>}
+            </div>
+          )}
+        </Card>
+      ))
+    }
+  </section>
+</Base>

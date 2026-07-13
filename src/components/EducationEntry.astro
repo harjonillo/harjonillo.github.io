@@ -1,0 +1,23 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'education'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+{/* Reuses the .job grid styles — same dates-left, content-right layout. */}
+<div class="job">
+  <div class="meta">{entry.data.start} — {entry.data.end}</div>
+  <div>
+    <h3>{entry.data.institution}</h3>
+    <p class="role">{entry.data.credential}</p>
+    <div class="muted">
+      <Content />
+    </div>
+  </div>
+</div>
