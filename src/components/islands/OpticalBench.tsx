@@ -22,7 +22,7 @@ export default function OpticalBench({ src }: Props) {
         <line x1="105" y1="105" x2="175" y2="75" stroke="#FCF6EE" strokeWidth="2" opacity="0.85" />
         <circle cx="175" cy="75" r="4" fill="#FCF6EE" />
       </svg>
-      <span className="demo-label">[ SIMULATOR EMBED — PENDING DEPLOYED URL ]</span>
+      <span className="demo-label">[ UPCOMING ]</span>
     </div>
   );
 }

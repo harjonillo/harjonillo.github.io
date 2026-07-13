@@ -24,7 +24,7 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
     featured.map(({ project, Content }) => (
       <section class="feature">
         <div>
-          <span class="meta">FEATURED{project.data.demo && ' · LIVE DEMO'}</span>
+          <span class="meta">FEATURED · {project.data.demo ? 'LIVE DEMO' : 'UPCOMING'}</span>
           <h3>{project.data.title}</h3>
           <div class="feature-body">
             <Content />
