@@ -545,7 +545,13 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
 footer {
   max-width: var(--maxw);
   margin: 5rem auto 0;
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 2rem;
   font-size: 0.85rem;
   opacity: 0.6;
+}
+footer p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6em;
 }

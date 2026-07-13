@@ -8,5 +8,4 @@ featured: true
 ---
 
 An interactive ray-optics sandbox for physics education — drag lenses and
-mirrors, watch rays refract in real time. Built to give students the tactile
-intuition that online-only instruction couldn't.
+mirrors, watch rays refract in real time.
