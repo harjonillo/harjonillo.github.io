@@ -1,9 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import Eyebrow from '../components/Eyebrow.astro';
-import OpticalBench from '../components/islands/OpticalBench.tsx';
 
 const projects = await getCollection('projects');
 const rendered = await Promise.all(
@@ -24,7 +24,7 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
     featured.map(({ project, Content }) => (
       <section class="feature">
         <div>
-          <span class="meta">FEATURED · {project.data.demo ? 'LIVE DEMO' : 'UPCOMING'}</span>
+          <span class="meta">FEATURED · {project.data.demo ? 'LIVE' : 'UPCOMING'}</span>
           <h3>{project.data.title}</h3>
           <div class="feature-body">
             <Content />
@@ -32,15 +32,22 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
           <p class="meta" style="margin-top: 0.8rem;">
             {project.data.stack.join(' · ')}
           </p>
-          {project.data.repo && (
+          {(project.data.repo || project.data.demo) && (
             <div class="project-links">
-              <a href={project.data.repo}>Repo →</a>
+              {project.data.repo && <a href={project.data.repo}>Repo →</a>}
+              {project.data.demo && <a href={project.data.demo}>Demo →</a>}
             </div>
           )}
         </div>
-        {/* The featured project is the optical bench; the island renders a
-            placeholder until the simulator has a deployed URL (demo field). */}
-        <OpticalBench client:only="react" src={project.data.demo} />
+
+        {project.data.image &&
+          (project.data.demo ? (
+            <a href={project.data.demo} aria-label={`Open the live ${project.data.title} demo`}>
+              <Image class="feature-shot" src={project.data.image} alt={`Screenshot of ${project.data.title}`} />
+            </a>
+          ) : (
+            <Image class="feature-shot" src={project.data.image} alt={`Screenshot of ${project.data.title}`} />
+          ))}
       </section>
     ))
   }

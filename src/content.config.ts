@@ -28,14 +28,16 @@ const publications = defineCollection({
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    category: z.string(), // "MIR / AUDIO ML", "META", ...
-    stack: z.array(z.string()),
-    repo: z.string().optional(),
-    demo: z.string().optional(),
-    featured: z.boolean(), // featured → dark hero treatment on /projects
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      category: z.string(), // "MIR / AUDIO ML", "META", ...
+      stack: z.array(z.string()),
+      repo: z.string().optional(),
+      demo: z.string().optional(),
+      image: image().optional(), // screenshot shown on the featured hero
+      featured: z.boolean(), // featured → dark hero treatment on /projects
+    }),
 });
 
 const recipes = defineCollection({
