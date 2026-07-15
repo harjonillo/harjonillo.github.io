@@ -2,8 +2,9 @@
 title: Optical Bench Simulator
 category: PHYSICS EDUCATION
 stack: [TypeScript, React, Canvas, Vite]
-# repo: https://github.com/harjonillo/optical-bench   TODO
-# demo: https://...   TODO — once set, the /projects page embeds it via the OpticalBench island
+repo: https://github.com/harjonillo/virtual-workbench-optics
+demo: https://harjonillo.github.io/virtual-workbench-optics/
+image: ../../assets/projects/virtual_optical_bench.png
 featured: true
 ---
 
