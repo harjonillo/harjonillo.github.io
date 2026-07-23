@@ -91,7 +91,7 @@ section + section { margin-top: 3.5rem; }
 /* ---------- cards ---------- */
 .card {
   background: var(--card);
-  border: 1px solid rgba(71, 61, 61, 0.12);
+  border: 1px solid rgba(210, 201, 190, 0.92);
   border-radius: 10px;
   padding: 1.5rem 1.7rem;
   box-shadow: 0 1px 2px rgba(71, 61, 61, 0.05);
@@ -164,53 +164,6 @@ a.card { display: block; text-decoration: none; color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) {
   .quick-cards .card, .quick-cards .card:hover { transform: none; }
-}
-
-/* discreet slam book */
-.slambook {
-  margin-top: 4.5rem;
-  max-width: 560px;
-}
-.slambook summary {
-  cursor: pointer;
-  list-style: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  color: var(--brown);
-  opacity: 0.65;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 2px;
-}
-.slambook summary:hover { opacity: 1; border-bottom-color: var(--cyan); }
-.slambook summary::-webkit-details-marker { display: none; }
-.slambook summary::before { content: "▸"; transition: transform 0.2s; }
-.slambook[open] summary::before { transform: rotate(90deg); }
-@media (prefers-reduced-motion: reduce) { .slambook summary::before { transition: none; } }
-.slambook .sb-card {
-  margin-top: 1rem;
-  background: var(--card);
-  border: 1px solid rgba(71, 61, 61, 0.12);
-  border-left: 4px solid var(--charcoal);
-  border-radius: 8px;
-  padding: 1.3rem 1.5rem;
-}
-.slambook dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1.4rem; }
-.slambook dt {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--cyan);
-  padding-top: 0.2rem;
-}
-.slambook dd { font-size: 0.95rem; }
-@media (max-width: 520px) {
-  .slambook dl { grid-template-columns: 1fr; gap: 0; }
-  .slambook dd { margin-bottom: 0.6rem; }
 }
 
 /* ================= WORK ================= */
