@@ -27,6 +27,7 @@ const recipes = await getCollection('recipes');
             client:visible
             baseServings={recipe.data.baseServings}
             servingUnit={recipe.data.servingUnit}
+            kcalPerUnit={recipe.data.kcalPerUnit}
             ingredients={recipe.data.ingredients}
           />
           <p class="meta" style="margin-top:0.8rem;">full recipe →</p>

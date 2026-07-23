@@ -28,7 +28,9 @@ const { Content } = await render(recipe);
       client:visible
       baseServings={recipe.data.baseServings}
       servingUnit={recipe.data.servingUnit}
+      kcalPerUnit={recipe.data.kcalPerUnit}
       ingredients={recipe.data.ingredients}
+      showBreakdown
     />
 
     <div class="method">

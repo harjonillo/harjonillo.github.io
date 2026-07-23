@@ -3,13 +3,15 @@ title: Carbonara
 category: PASTA · SIGNATURE
 baseServings: 2
 servingUnit: servings
+kcalPerUnit: 1070
+# kcal below are estimates for the full amount at baseServings; sum / baseServings ≈ kcalPerUnit
 ingredients:
-  - { amount: 200, unit: g, item: "linguini (preferably De Cecco or better)" }
-  - { amount: 150, unit: g, item: guanciale }
-  - { amount: 60, unit: g, item: pecorino romano }
-  - { amount: 3, unit: "", item: "egg, plus 3 egg yolks" }
-  - { amount: 1, unit: tbsp, item: "red, white, and black peppercorns, freshly cracked" }
-  - { amount: 1, unit: tsp, item: salt, for the pasta water }
+  - { amount: 200, unit: g, item: "linguini (preferably De Cecco or better)", kcal: 715 }
+  - { amount: 150, unit: g, item: guanciale, kcal: 800 }
+  - { amount: 60, unit: g, item: pecorino romano, kcal: 235 }
+  - { amount: 3, unit: "", item: "egg, plus 3 egg yolks", kcal: 380 }
+  - { amount: 1, unit: tbsp, item: "red, white, and black peppercorns, freshly cracked", kcal: 15 }
+  - { amount: 1, unit: tsp, item: salt, for the pasta water, kcal: 0 }
 ---
 
 1. Render the meat: Slice the guanciale as thinly as you can - with a good knife 

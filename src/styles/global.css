@@ -360,12 +360,32 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 .servings button:hover { background: var(--cyan); border-color: var(--cyan); color: var(--bg); }
+.servings .kcal {
+  margin-left: auto;
+  text-align: right;
+  color: var(--brown);
+  opacity: 0.75;
+}
 .recipe-card table, .recipe-page table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 .recipe-card td, .recipe-page td { padding: 0.3rem 0; border-bottom: 1px dashed rgba(71, 61, 61, 0.15); }
 .recipe-card td.amount, .recipe-page td.amount {
   font-family: 'JetBrains Mono', monospace;
   color: var(--brown);
   width: 110px;
+}
+.recipe-page td.kcal-cell {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--brown);
+  opacity: 0.75;
+  text-align: right;
+  white-space: nowrap;
+  width: 90px;
+}
+.recipe-page tfoot td {
+  border-bottom: none;
+  border-top: 1px solid rgba(71, 61, 61, 0.3);
+  font-weight: 600;
+  opacity: 1;
 }
 .recipe-page .method { margin-top: 2rem; max-width: 62ch; }
 .recipe-page .method p + p, .recipe-page .method ol, .recipe-page .method ul { margin-top: 0.8rem; }

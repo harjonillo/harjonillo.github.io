@@ -3,17 +3,19 @@ title: Pinakbet, but like ratatouille from the movie Ratatouille
 category: MAINS · PESCETARIAN
 baseServings: 2
 servingUnit: servings
+kcalPerUnit: 270
+# kcal below are estimates for the full amount at baseServings; sum / baseServings ≈ kcalPerUnit
 ingredients:
-  - { amount: 100, unit: g, item: squash }
-  - { amount: 100, unit: g, item: eggplant }
-  - { amount: 100, unit: g, item: tomato }
-  - { amount: 50, unit: g, item: okra }
-  - { amount: 50, unit: g, item: ampalaya }
-  - { amount: 50, unit: g, item: string beans }
-  - { amount: 1, unit: "", item: small red onion}
-  - { amount: 2, unit: cloves, item: garlic}
-  - { amount: 1, unit: tbsp, item: bagoong }
-  - { amount: 3, unit: tbsp, item: "olive oil"}
+  - { amount: 100, unit: g, item: squash, kcal: 40 }
+  - { amount: 100, unit: g, item: eggplant, kcal: 25 }
+  - { amount: 100, unit: g, item: tomato, kcal: 18 }
+  - { amount: 50, unit: g, item: okra, kcal: 15 }
+  - { amount: 50, unit: g, item: ampalaya, kcal: 10 }
+  - { amount: 50, unit: g, item: string beans, kcal: 15 }
+  - { amount: 1, unit: "", item: small red onion, kcal: 30 }
+  - { amount: 2, unit: cloves, item: garlic, kcal: 10 }
+  - { amount: 1, unit: tbsp, item: bagoong, kcal: 20 }
+  - { amount: 3, unit: tbsp, item: "olive oil", kcal: 360 }
 ---
 
 1. Thinly slice the squash, eggplant, and tomato into evenly shaped discs. 

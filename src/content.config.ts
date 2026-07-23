@@ -47,8 +47,14 @@ const recipes = defineCollection({
     category: z.string(), // "COOKIES", "PASTA", ...
     baseServings: z.number(),
     servingUnit: z.string(), // "cookies", "servings"
+    kcalPerUnit: z.number().optional(), // rough estimate per serving/cookie
     ingredients: z.array(
-      z.object({ amount: z.number(), unit: z.string(), item: z.string() }),
+      z.object({
+        amount: z.number(),
+        unit: z.string(),
+        item: z.string(),
+        kcal: z.number().optional(), // est. kcal for this ingredient at baseServings; breakdown only, not rendered
+      }),
     ),
   }),
 });
