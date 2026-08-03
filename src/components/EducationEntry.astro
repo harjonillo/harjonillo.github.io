@@ -19,5 +19,24 @@ const { Content } = await render(entry);
     <div class="muted">
       <Content />
     </div>
+    {entry.data.adviser && (
+      <p class="muted adviser">Adviser: {entry.data.adviser}</p>
+    )}
+    {
+      entry.data.coursework.length > 0 && (
+        <div class="coursework">
+          <span class="meta">Selected coursework</span>
+          <ul>
+            {entry.data.coursework.map((course) => (
+              <li>
+                {course.title}
+                {course.note && <span class="note"> — {course.note}</span>}
+                {course.inProgress && <span class="in-progress">in progress</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
   </div>
 </div>

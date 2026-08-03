@@ -23,6 +23,10 @@ const publications = defineCollection({
     doi: z.string().optional(),
     authors: z.string(),
     note: z.string().optional(), // e.g. an award attached to the paper
+    // Anything clickable that belongs to the paper: code, data, slides, poster.
+    links: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .default([]),
   }),
 });
 
@@ -77,6 +81,36 @@ const education = defineCollection({
     start: z.string(),
     end: z.string(), // or "present"
     order: z.number(), // manual sort
+    // Exactly one entry may set featured — it drives the "Current" card on
+    // /research. The card stays deliberately short: summary + milestones +
+    // links. The full detail lives in the body, rendered in the timeline.
+    featured: z.boolean().default(false),
+    summary: z.string().optional(), // card-only blurb; body is the timeline version
+    adviser: z.string().optional(), // rendered on the card and in the timeline
+    // Curated, not a transcript — keep it to the few that say something. `note`
+    // is for when the catalog title hides what the course actually was.
+    coursework: z
+      .array(
+        z.object({
+          title: z.string(),
+          note: z.string().optional(),
+          inProgress: z.boolean().default(false), // currently enrolled
+        }),
+      )
+      .default([]),
+    milestones: z
+      .array(
+        z.object({
+          label: z.string(),
+          date: z.string().optional(), // omit until it has actually happened
+          done: z.boolean().default(false),
+          note: z.string().optional(), // e.g. what an exam covered
+        }),
+      )
+      .default([]),
+    links: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .default([]),
   }),
 });
 

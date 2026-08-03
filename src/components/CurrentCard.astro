@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from './Card.astro';
+
+interface Props {
+  entry: CollectionEntry<'education'>;
+}
+
+const { entry } = Astro.props;
+const { institution, credential, start, end, summary, adviser, milestones, links } = entry.data;
+---
+
+{/* Deliberately short — the full detail lives in the Education timeline below. */}
+<Card>
+  <span class="meta">{credential} · {institution} · {start} — {end}</span>
+  {summary && <p style="margin-top:0.5rem;">{summary}</p>}
+  {adviser && (
+    <p class="muted" style="margin-top:0.6rem; font-size:0.9rem;">
+      Adviser: {adviser}
+    </p>
+  )}
+
+  {
+    milestones.length > 0 && (
+      <ol class="milestones">
+        {milestones.map((m) => (
+          <li class:list={['milestone', { done: m.done }]}>
+            <span class="tick" aria-hidden="true">{m.done ? '✓' : '·'}</span>
+            <span class="label">
+              {m.label}
+              {m.note && <span class="note">{m.note}</span>}
+            </span>
+            {/* No date until it has actually happened. */}
+            <span class="when">{m.date ?? '—'}</span>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+
+  {
+    links.length > 0 && (
+      <div class="project-links">
+        {links.map((link) => <a href={link.href}>{link.label} →</a>)}
+      </div>
+    )
+  }
+</Card>
