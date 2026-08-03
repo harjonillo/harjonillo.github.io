@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Card from '../components/Card.astro';
+import CurrentCard from '../components/CurrentCard.astro';
 import EducationEntry from '../components/EducationEntry.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Pill from '../components/Pill.astro';
@@ -13,6 +13,16 @@ const publications = (await getCollection('publications')).sort(
 const education = (await getCollection('education')).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+// The "Current" card is whichever education entry sets `featured: true`.
+const featured = education.filter((entry) => entry.data.featured);
+if (featured.length > 1) {
+  throw new Error(
+    `Only one education entry may set featured: true — found ${featured.length}: ` +
+      featured.map((entry) => entry.id).join(', '),
+  );
+}
+const current = featured[0];
 
 const interests = [
   'hyperspectral unmixing',
@@ -29,20 +39,14 @@ const interests = [
   <Eyebrow>Research & Education</Eyebrow>
   <h1 class="page-title">Signals, spectra, and social systems</h1>
 
-  <section>
-    <h2>Current</h2>
-    <Card>
-      <span class="meta">PhD Physics · UP Diliman, National Institute of Physics · 2025 — Present </span>
-      <p style="margin-top:0.5rem;">
-        Hyperspectral unmixing methodologies applied to Philippine senatorial
-        voting patterns — treating election data as a mixed spectral signal and
-        recovering the interpretable source components underneath.
-      </p>
-      <p class="muted" style="margin-top:0.6rem; font-size:0.9rem;">
-        Adviser: May T. Lim, PhD.
-      </p>
-    </Card>
-  </section>
+  {
+    current && (
+      <section>
+        <h2>Current</h2>
+        <CurrentCard entry={current} />
+      </section>
+    )
+  }
 
   <section>
     <h2>Publications</h2>

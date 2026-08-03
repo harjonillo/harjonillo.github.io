@@ -176,6 +176,25 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .job li { margin-top: 0.3rem; }
 
 /* ================= RESEARCH ================= */
+/* Education timeline extras — reuses the .job grid, so these sit in its right column. */
+.job .adviser { font-size: 0.9rem; margin-top: 0.4rem; }
+.coursework { margin-top: 0.7rem; }
+.coursework ul { list-style: none; padding-left: 0; margin-top: 0.25rem; font-size: 0.9rem; }
+.coursework li { margin-top: 0.15rem; }
+.coursework .note { color: var(--cyan); font-size: 0.85rem; }
+.coursework .in-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid rgba(85, 130, 139, 0.45);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  margin-left: 0.45rem;
+  white-space: nowrap;
+}
+
 .pub { border-left: 3px solid var(--cyan); padding-left: 1.2rem; }
 .pub + .pub { margin-top: 1.6rem; }
 .pub .title { font-weight: 600; }
@@ -206,6 +225,36 @@ a.card { display: block; text-decoration: none; color: inherit; }
   border: 1px solid rgba(252, 246, 238, 0.2);
 }
 .project-links { margin-top: 0.7rem; display: flex; gap: 1rem; font-size: 0.9rem; }
+
+/* Milestone stepper on the /research "Current" card. Done steps read in cyan,
+   pending ones stay muted — no percentage, no projected dates. */
+.milestones { list-style: none; margin: 1.1rem 0 0; padding: 0; }
+.milestone {
+  display: grid;
+  grid-template-columns: 1.1rem 1fr auto;
+  gap: 0.6rem;
+  align-items: baseline;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  padding: 0.32rem 0;
+  color: var(--charcoal);
+  opacity: 0.55;
+}
+.milestone.done { opacity: 1; }
+.milestone + .milestone { border-top: 1px solid rgba(54, 73, 88, 0.1); }
+.milestone .tick { color: var(--cyan); text-align: center; }
+.milestone .note {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--cyan);
+  opacity: 0.85;
+}
+.milestone.done .tick { font-weight: 600; }
+.milestone .when { color: var(--cyan); font-size: 0.72rem; }
+.milestone:not(.done) .when { opacity: 0.5; }
 
 /* ================= ART ================= */
 .art-filters { margin-bottom: 1.4rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }

@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { pub } = Astro.props;
-const { title, venue, year, doi, authors, note } = pub.data;
+const { title, venue, year, doi, authors, note, links } = pub.data;
 ---
 
 <div class="pub">
@@ -16,4 +16,9 @@ const { title, venue, year, doi, authors, note } = pub.data;
   </p>
   <p class="authors muted">{authors}</p>
   {note && <p class="meta" style="margin-top:0.3rem;">{note}</p>}
+  {links.length > 0 && (
+    <div class="project-links">
+      {links.map((link) => <a href={link.href}>{link.label} →</a>)}
+    </div>
+  )}
 </div>

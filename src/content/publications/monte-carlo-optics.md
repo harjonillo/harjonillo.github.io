@@ -5,4 +5,7 @@ year: 2023
 doi: 10.1016/j.optcom.2023.129314
 authors: Arjonillo, H.C. and Saloma, C.
 note: International Publication Award 2023, UP Diliman
+links:
+  - label: Code
+    href: https://github.com/harjonillo/gbp-mc
 ---
