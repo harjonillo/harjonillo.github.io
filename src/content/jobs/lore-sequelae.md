@@ -2,7 +2,7 @@
 company: Lore Health / Sequelae PH
 role: Machine Learning Scientist — NLP & topic modeling
 start: "Dec 2022"
-end: "Dec 2024"
+end: "Nov 2024"
 tags: [NLP, topic models, GCP, Airflow]
 order: 2
 ---
