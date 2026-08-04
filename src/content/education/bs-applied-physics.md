@@ -11,6 +11,21 @@ adviser: Caesar A. Saloma, PhD.
 #   - title: Course Title
 #   - title: Another Course
 #     note: what it actually covered
+# SPP and other conference proceedings from this degree's work. `href` optional —
+# link the official page even if paywalled, or omit it if there's nothing to link.
+proceedings:
+  - title: Curvature correction and Mie scattering in Monte Carlo analysis of propagating focused Gaussian beam in scattering media
+    venue: SPP 37th Physics Conference
+    year: 2019
+    href:   https://paperview.spp-online.org/proceedings/article/view/SPP-2019-PB-20
+  - title: Preserving photon detection and average power in random scattering media and curvature correction in vectorized particle Monte Carlo simulation of focused Gaussian beam
+    venue: SPP 36th Physics Conference
+    year: 2018
+    href:   https://paperview.spp-online.org/proceedings/article/view/SPP-2018-2C-06
+# Thesis repo, data, defense slides — anything clickable for the unpublished work.
+links:
+  - label: Thesis code repository
+    href: https://github.com/harjonillo/gbp-mc
 ---
 
 - Thesis: _Towards a more accurate Monte Carlo analysis of propagating focused
