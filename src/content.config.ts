@@ -98,6 +98,20 @@ const education = defineCollection({
         }),
       )
       .default([]),
+    // Conference proceedings sit with the degree the work came out of, rather
+    // than in the Publications list — that stays peer-reviewed journals only.
+    // `href` is optional: link it even if paywalled, omit it if there's nothing
+    // canonical to point at.
+    proceedings: z
+      .array(
+        z.object({
+          title: z.string(),
+          venue: z.string(),
+          year: z.number(),
+          href: z.string().optional(),
+        }),
+      )
+      .default([]),
     milestones: z
       .array(
         z.object({

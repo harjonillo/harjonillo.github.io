@@ -16,7 +16,9 @@ const { Content } = await render(entry);
   <div>
     <h3>{entry.data.institution}</h3>
     <p class="role">{entry.data.credential}</p>
-    <div class="muted">
+    {/* Not .muted — the thesis is the point of the entry, so it reads at the
+        same weight as the coursework list below it. */}
+    <div class="edu-body">
       <Content />
     </div>
     {entry.data.adviser && (
@@ -32,6 +34,38 @@ const { Content } = await render(entry);
                 {course.title}
                 {course.note && <span class="note"> — {course.note}</span>}
                 {course.inProgress && <span class="in-progress">in progress</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    {
+      entry.data.proceedings.length > 0 && (
+        <div class="coursework proceedings">
+          <span class="meta">Conference proceedings</span>
+          <ul>
+            {entry.data.proceedings.map((paper) => (
+              <li>
+                {paper.href ? <a href={paper.href}>{paper.title}</a> : paper.title}
+                <span class="note"> — {paper.venue}, {paper.year}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    {/* Unpublished work — thesis code, data, defense slides. The Current card
+        renders the same `links` as a compact chip row; the timeline gets the
+        labeled list, since a degree can accumulate several of these. */}
+    {
+      entry.data.links.length > 0 && (
+        <div class="coursework artifacts">
+          <span class="meta">Artifacts</span>
+          <ul>
+            {entry.data.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
               </li>
             ))}
           </ul>

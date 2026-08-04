@@ -178,9 +178,18 @@ a.card { display: block; text-decoration: none; color: inherit; }
 /* ================= RESEARCH ================= */
 /* Education timeline extras — reuses the .job grid, so these sit in its right column. */
 .job .adviser { font-size: 0.9rem; margin-top: 0.4rem; }
-.coursework { margin-top: 0.7rem; }
+/* Reads as plain lines, not bullets — a thesis is usually a single item, and it
+   matches the sub-lists below it. Scoped so /work job bullets keep their markers. */
+.job .edu-body ul { list-style: none; padding-left: 0; font-size: 0.9rem; }
+.job .edu-body li { margin-top: 0.15rem; }
+.job .edu-body p { font-size: 0.9rem; }
+.coursework { margin-top: 1rem; }
 .coursework ul { list-style: none; padding-left: 0; margin-top: 0.25rem; font-size: 0.9rem; }
 .coursework li { margin-top: 0.15rem; }
+/* Borrows the .coursework sub-list layout; venue reads as metadata, not a highlight. */
+.proceedings li { margin-top: 0.3rem; }
+.proceedings .note { color: inherit; opacity: 0.72; }
+.artifacts li { margin-top: 0.3rem; }
 .coursework .note { color: var(--cyan); font-size: 0.85rem; }
 .coursework .in-progress {
   font-family: 'JetBrains Mono', monospace;
