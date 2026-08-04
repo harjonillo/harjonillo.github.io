@@ -26,6 +26,8 @@ links:
     href: https://github.com/harjonillo/culture-map-prediction
   - label: Thesis code repository, all explorations
     href: https://github.com/harjonillo/ms-physics-research-culture
+  - label: Thesis defense slides (PDF)
+    href: /slides/ms-thesis-defense-slides.pdf
 ---
 
 - Thesis: _Measuring intra-country cultural diversity_.
