@@ -11,9 +11,56 @@ order: 1
 - [x] tokyo godfathers
 - [ ] memories
 
+### julie dash
+
+- [x] daughters of the dust*
+
+### mehboob khan
+
+- [x] mother india*
+
+### khyentse norbu
+
+- [ ] travellers and magicians
+
+### nicolas roeg
+
+- [x] walkabout*
+
+### kidlat tahimik
+
+- [x] perfumed nightmare*
+- [x] turumba
+- [x] bakit dilaw ang gitna ng bahaghari?
+
+### william cameron menzies
+
+- [ ] things to come
+
+### chris marker
+
+- [x] la jetée
+
 ### katsuhiro otomo
 
 - [x] akira
+
+### isabella rossellini
+
+- [x] green porno*
+
+### gillo pontecorvo
+
+- [ ] the battle of algiers
+
+### alexander korda
+
+- [x] the thief of bagdad*
+
+### david lean
+
+- [x] lawrence of arabia
+- [x] summertime
 
 ### mamoru oshii
 
@@ -24,9 +71,6 @@ order: 1
 - [x] arrival*
 - [x] blade runner 2049*
 - [x] dune parts 1 & 2*
-
-### julie dash
-- [x] daughters of the dust*
 
 ### rené laloux
 
@@ -64,16 +108,6 @@ order: 1
 - [ ] nostalghia
 - [ ] ivan's childhood
 
-### kidlat tahimik
-
-- [x] perfumed nightmare*
-- [x] turumba
-- [x] bakit dilaw ang gitna ng bahaghari?
-
-### mehboob khan
-
-- [ ] mother india
-
 ### wong kar-wai
 
 - [x] chungking express
@@ -99,6 +133,7 @@ order: 1
 - [x] interstellar*
 - [x] inception
 - [x] oppenheimer
+- [x] the odyssey*
 
 ### akira kurosawa
 
@@ -132,7 +167,7 @@ order: 1
 - [x] monty python and the holy grail
 - [x] monty python's life of brian
 
-
 ### derek kolstad
-- [x] all the john wick movies*
-- [x] ballerina*
+
+- [x] all the john wick movies
+- [x] ballerina
