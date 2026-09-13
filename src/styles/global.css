@@ -204,6 +204,83 @@ a.card { display: block; text-decoration: none; color: inherit; }
   white-space: nowrap;
 }
 
+/* Two-column temporal timeline: education | year axis | programs & certificates.
+   Each column is an independent stack; a client script (see research.astro)
+   positions every card by the year it *ended* along a shared proportional axis,
+   so a column reads newest→oldest top-down and concurrent entries in opposite
+   columns overlap vertically (e.g. an undergrad that ran alongside a diploma). */
+.tl-head,
+.timeline {
+  display: grid;
+  grid-template-columns: 3fr 64px 2fr; /* 60 / 40 across the two card columns */
+  column-gap: 1.5rem;
+}
+.tl-head { margin-bottom: 0.5rem; }
+.tl-head h2 { margin-bottom: 0; text-align: left; }
+
+.timeline { position: relative; }
+.tl-col { position: relative; }
+.tl-axis { position: relative; }
+
+/* Fallback before the script runs (and if JS is off): plain stacked cards. */
+.tl-item + .tl-item {
+  margin-top: 2.2rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid rgba(71, 61, 61, 0.12);
+}
+
+/* The education column stays a natural, readable stack (its card tops calibrate
+   the year→pixel mapping). Only the certificate cards are positioned — each is
+   hung at the vertical spot matching its end-year on that education timeline, so
+   it lands beside whatever was concurrent. Heights are set on the certificate
+   column by the script so the grid row (and the axis rule) stretches correctly. */
+.timeline.is-positioned .tl-cert .tl-item {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.timeline.is-positioned .tl-axis::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(85, 130, 139, 0.3); /* --cyan, faint */
+}
+/* Year markers the script drops onto the axis, one per end-year, aligned to the
+   card that ended that year. */
+.tl-tick {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.3rem;
+  white-space: nowrap;
+}
+
+/* Inside the timeline the shared axis carries the time, so collapse each card's
+   own 130px date column — the range still stacks above the title (same as the
+   mobile .job layout). */
+.timeline .job { grid-template-columns: 1fr; gap: 0.3rem; }
+
+@media (max-width: 720px) {
+  /* Linearize: the script strips positioning, cards flow in one column (all
+     education, then all certificates), each keeping its own dates, so the axis
+     and column headers become redundant and drop away. */
+  .tl-head { display: none; }
+  .timeline { grid-template-columns: 1fr; column-gap: 0; }
+  .tl-axis { display: none; }
+}
+
 .pub { border-left: 3px solid var(--cyan); padding-left: 1.2rem; }
 .pub + .pub { margin-top: 1.6rem; }
 .pub .title { font-weight: 600; }

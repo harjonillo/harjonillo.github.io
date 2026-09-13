@@ -128,6 +128,24 @@ const education = defineCollection({
   }),
 });
 
+// Short programs, courses, and certificates that aren't degrees — SPAR, BlueDot,
+// summer schools, and the like. Kept separate from `education` so the degree
+// timeline stays clean.
+const certificates = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/certificates' }),
+  schema: z.object({
+    program: z.string(), // program or organization, e.g. "BlueDot Impact"
+    credential: z.string(), // what it was, e.g. "AI Alignment course" / "Mentee"
+    start: z.string().optional(), // omit for a single-date certificate
+    end: z.string(), // completion date, or period end — "2025" / "MAR 2025"
+    order: z.number(), // manual sort — lower is more recent / higher up
+    // Anything clickable: the certificate itself, a project output, a writeup.
+    links: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .default([]),
+  }),
+});
+
 const art = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/art' }),
   // image is optional until real scans land in src/assets/art — make it
@@ -141,4 +159,4 @@ const art = defineCollection({
     }),
 });
 
-export const collections = { jobs, publications, projects, recipes, education, art, lists };
+export const collections = { jobs, publications, projects, recipes, education, certificates, art, lists };

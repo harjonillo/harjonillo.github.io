@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CurrentCard from '../components/CurrentCard.astro';
+import CertificateEntry from '../components/CertificateEntry.astro';
 import EducationEntry from '../components/EducationEntry.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Pill from '../components/Pill.astro';
@@ -11,6 +12,9 @@ const publications = (await getCollection('publications')).sort(
   (a, b) => b.data.year - a.data.year,
 );
 const education = (await getCollection('education')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const certificates = (await getCollection('certificates')).sort(
   (a, b) => a.data.order - b.data.order,
 );
 
@@ -30,6 +34,27 @@ const interests = [
   'audio & music information retrieval',
   'physiological signal processing',
 ];
+
+// ---- Temporal timeline -------------------------------------------------------
+// Education and certificates share one proportional time axis. Each entry knows
+// its start and end year; a client script (bottom of file) positions cards by
+// the year they *ended*, newest at the top, so concurrent entries in opposite
+// columns overlap vertically. When there are no certificates yet, the page falls
+// back to a plain education list.
+const CURRENT_YEAR = new Date().getFullYear();
+const yearOf = (s?: string): number => {
+  if (!s || /present|now/i.test(s)) return CURRENT_YEAR;
+  const match = s.match(/\d{4}/);
+  return match ? Number(match[0]) : CURRENT_YEAR;
+};
+
+const hasCerts = certificates.length > 0;
+// Newest end-year sits at the top of the axis (y = 0).
+const maxYear = Math.max(
+  CURRENT_YEAR,
+  ...education.map((e) => yearOf(e.data.end)),
+  ...certificates.map((e) => yearOf(e.data.end)),
+);
 ---
 
 <Base
@@ -60,8 +85,162 @@ const interests = [
     </div>
   </section>
 
-  <section>
-    <h2>Education</h2>
-    {education.map((entry) => <EducationEntry entry={entry} />)}
-  </section>
+  {
+    hasCerts ? (
+      <section>
+        {/* Two columns on one shared year axis — education left, programs &
+            certificates right. The script below positions cards by end-year. */}
+        <div class="tl-head">
+          <h2>Education</h2>
+          <span />
+          <h2>Programs &amp; certificates</h2>
+        </div>
+        <div class="timeline" data-max-year={maxYear}>
+          <div class="tl-col tl-edu">
+            {education.map((entry) => (
+              <div
+                class="tl-item"
+                data-start={yearOf(entry.data.start ?? entry.data.end)}
+                data-end={yearOf(entry.data.end)}
+              >
+                <EducationEntry entry={entry} />
+              </div>
+            ))}
+          </div>
+          <div class="tl-axis" aria-hidden="true" />
+          <div class="tl-col tl-cert">
+            {certificates.map((entry) => (
+              <div
+                class="tl-item"
+                data-start={yearOf(entry.data.start ?? entry.data.end)}
+                data-end={yearOf(entry.data.end)}
+              >
+                <CertificateEntry entry={entry} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ) : (
+      <section>
+        <h2>Education</h2>
+        {education.map((entry) => (
+          <EducationEntry entry={entry} />
+        ))}
+      </section>
+    )
+  }
 </Base>
+
+{/* Lays out the timeline. The education column stays a natural stack; its card
+    tops/bottoms calibrate a monotonic year→pixel mapping. Each certificate is
+    then hung at the pixel matching its end-year, so it sits beside whatever
+    education was running at the time (with a small push-down if two collide).
+    Falls back to plain side-by-side stacks with no JS, and linearizes on mobile. */}
+<script>
+  const GAP = 26; // min gap between two certificates that map to the same spot
+  const MOBILE = 720;
+
+  function layoutTimeline(timeline: HTMLElement) {
+    const eduCol = timeline.querySelector<HTMLElement>('.tl-edu');
+    const certCol = timeline.querySelector<HTMLElement>('.tl-cert');
+    const axis = timeline.querySelector<HTMLElement>('.tl-axis');
+    const certItems = certCol
+      ? [...certCol.querySelectorAll<HTMLElement>('.tl-item')]
+      : [];
+
+    // Reset any previous run before measuring.
+    certItems.forEach((it) => (it.style.top = ''));
+    if (certCol) certCol.style.height = '';
+    if (axis) axis.textContent = '';
+
+    if (!eduCol || window.matchMedia(`(max-width: ${MOBILE}px)`).matches) {
+      timeline.classList.remove('is-positioned');
+      return;
+    }
+    timeline.classList.add('is-positioned');
+
+    // Calibration points {year, y} from the naturally-stacked education column:
+    // each card's top marks its end-year, its bottom marks its start-year.
+    const points: { year: number; y: number }[] = [];
+    const eduEndYears: number[] = [];
+    eduCol.querySelectorAll<HTMLElement>('.tl-item').forEach((item) => {
+      const start = Number(item.dataset.start);
+      const end = Number(item.dataset.end);
+      const top = item.offsetTop;
+      points.push({ year: end, y: top });
+      points.push({ year: start, y: top + item.offsetHeight });
+      eduEndYears.push(end);
+    });
+    points.sort((a, b) => b.year - a.year || a.y - b.y);
+    const calib = points.filter(
+      (p, i) => i === 0 || points[i - 1].year !== p.year,
+    );
+    if (!calib.length) {
+      timeline.classList.remove('is-positioned');
+      return;
+    }
+
+    // Monotonic: newer years sit higher (smaller y), older years lower.
+    const mapY = (year: number): number => {
+      if (year >= calib[0].year) return calib[0].y;
+      const last = calib[calib.length - 1];
+      if (year <= last.year) return last.y;
+      for (let i = 0; i < calib.length - 1; i++) {
+        const a = calib[i];
+        const b = calib[i + 1];
+        if (year <= a.year && year >= b.year) {
+          const frac = (a.year - year) / (a.year - b.year);
+          return a.y + frac * (b.y - a.y);
+        }
+      }
+      return last.y;
+    };
+
+    // Hang each certificate at its year, pushing down only to avoid self-overlap.
+    let cursor = 0;
+    const certTop = new Map<number, number>();
+    certItems.forEach((item) => {
+      const end = Number(item.dataset.end);
+      const top = Math.max(mapY(end), cursor);
+      item.style.top = `${top}px`;
+      cursor = top + item.offsetHeight + GAP;
+      if (!certTop.has(end) || top < certTop.get(end)!) certTop.set(end, top);
+    });
+    if (certCol) certCol.style.height = `${Math.max(0, cursor - GAP)}px`;
+
+    // Year ticks: education end-years at their card tops, plus any certificate
+    // end-year at its placed top. mapY is monotonic, so ticks stay in order.
+    if (axis) {
+      const ticks = new Map<number, number>();
+      eduEndYears.forEach((year) => ticks.set(year, mapY(year)));
+      certTop.forEach((top, year) => {
+        if (!ticks.has(year)) ticks.set(year, top);
+      });
+      [...ticks.entries()]
+        .sort((a, b) => a[1] - b[1])
+        .forEach(([year, top]) => {
+          const tick = document.createElement('span');
+          tick.className = 'tl-tick';
+          tick.textContent = String(year);
+          tick.style.top = `${top}px`;
+          axis.appendChild(tick);
+        });
+    }
+  }
+
+  const run = () =>
+    document
+      .querySelectorAll<HTMLElement>('.timeline')
+      .forEach(layoutTimeline);
+
+  run();
+  // Fonts and images shift card heights after first paint.
+  window.addEventListener('load', run);
+  if (document.fonts?.ready) document.fonts.ready.then(run);
+  let resizeTimer: number | undefined;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(run, 150);
+  });
+</script>

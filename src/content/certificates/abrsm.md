@@ -1,9 +1,9 @@
 ---
-institution: Associated Board of the Royal Schools of Music
+program: Associated Board of the Royal Schools of Music
 credential: Classical training — violin & piano
 start: "2012"
 end: "2016"
-order: 4
+order: 3
 ---
 
 - Diploma in Music Performance, violin (2016).

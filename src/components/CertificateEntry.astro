@@ -1,0 +1,34 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'certificates'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { program, credential, start, end, links } = entry.data;
+---
+
+{/* Reuses the .job grid styles — same dates-left, content-right layout as
+    EducationEntry. */}
+<div class="job">
+  <div class="meta">{start ? `${start} — ${end}` : end}</div>
+  <div>
+    <h3>{program}</h3>
+    <p class="role">{credential}</p>
+    <div class="edu-body">
+      <Content />
+    </div>
+    {
+      links.length > 0 && (
+        <div class="project-links">
+          {links.map((link) => (
+            <a href={link.href}>{link.label} →</a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>
