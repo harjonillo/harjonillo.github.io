@@ -161,11 +161,15 @@ order: 1
 ### terry gilliam
 
 - [x] brazil
+- [ ] fear and loathing in las vegas
 
 ### monty python
 
 - [x] monty python and the holy grail
 - [x] monty python's life of brian
+
+### med hondo
+- [ ] west indies: the fugitive slaves of liberty
 
 ### derek kolstad
 
