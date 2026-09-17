@@ -133,6 +133,40 @@ a.card { display: block; text-decoration: none; color: inherit; }
   margin-top: 1.2rem;
 }
 .hero .cta-row { margin-top: 1.8rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+.pill.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-color: var(--cyan);
+  color: var(--cyan);
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+}
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  flex: none;
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(85, 130, 139, 0.5); }
+  50%      { box-shadow: 0 0 0 0.28rem rgba(85, 130, 139, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
+}
+
+/* "Currently" board — three active tracks; the Work card carries the status pill */
+.currently { margin-top: 4rem; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.grid3 .card + .card { margin-top: 0; }
+.currently .card .meta { display: block; margin-bottom: 0.5rem; }
+.currently .card h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+.currently .card p { font-size: 0.92rem; }
+.currently .card .pill.status { margin-top: 0.9rem; }
+@media (max-width: 720px) { .grid3 { grid-template-columns: 1fr; } }
 .btn {
   display: inline-block;
   font-size: 0.92rem;
@@ -328,6 +362,8 @@ a.card { display: block; text-decoration: none; color: inherit; }
   opacity: 0.55;
 }
 .milestone.done { opacity: 1; }
+.milestone.ongoing { opacity: 1; }
+.milestone.ongoing .tick, .milestone.ongoing .when { opacity: 1; font-weight: 600; }
 .milestone + .milestone { border-top: 1px solid rgba(54, 73, 88, 0.1); }
 .milestone .tick { color: var(--cyan); text-align: center; }
 .milestone .note {

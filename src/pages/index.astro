@@ -1,7 +1,30 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import Eyebrow from '../components/Eyebrow.astro';
+
+type Row = { label: string; date?: string; done?: boolean; ongoing?: boolean };
+
+// Compact home checklists show only the current frontier: the most recent done
+// item plus what's upcoming, capped at 3 rows. The full timeline lives on /research.
+const frontier = (ms: Row[]): Row[] => {
+  const lastDone = ms.filter((m) => m.done).slice(-1);
+  const upcoming = ms.filter((m) => !m.done);
+  return [...lastDone, ...upcoming].slice(0, 3);
+};
+
+// PhD card mirrors the "Current" card on /research — driven by the featured
+// education entry so the two never drift.
+const education = await getCollection('education');
+const phd = education.find((e) => e.data.featured);
+const phdMilestones: Row[] = phd ? frontier(phd.data.milestones) : [];
+
+// Independent AI-safety work — most recently done + what's ongoing.
+const aiMilestones: Row[] = [
+  { label: 'BlueDot AGI Strategy', date: 'SEP 2026', done: true },
+  { label: 'SPAR — Loss of Human Agency ABM', date: 'ongoing', ongoing: true },
+];
 ---
 
 <Base
@@ -26,6 +49,53 @@ import Eyebrow from '../components/Eyebrow.astro';
     <div class="cta-row">
       {/* TODO: drop the real PDF into public/cv/ */}
       <a class="btn primary" href="/cv/hannah-arjonillo-cv.pdf">Download CV</a>
+    </div>
+  </section>
+
+  <section class="currently">
+    <Eyebrow>Currently</Eyebrow>
+    <div class="grid3">
+      <Card>
+        <span class="meta">Work</span>
+        <h3>Open to roles</h3>
+        <p class="muted">Between roles right now — looking for my next full-time position.</p>
+        <span class="pill status">
+          <span class="status-dot" aria-hidden="true"></span>
+          Open to full-time roles
+        </span>
+      </Card>
+      <Card>
+        <span class="meta">PhD</span>
+        <h3>Physics PhD</h3>
+        <p class="muted">Hyperspectral unmixing methodologies applied to Philippine senatorial voting patterns</p>
+        {
+          phdMilestones.length > 0 && (
+            <ol class="milestones">
+              {phdMilestones.map((m) => (
+                <li class:list={['milestone', { done: m.done, ongoing: m.ongoing }]}>
+                  <span class="tick" aria-hidden="true">{m.ongoing ? '▸' : m.done ? '✓' : '·'}</span>
+                  <span class="label">{m.label}</span>
+                  <span class="when">{m.date ?? '—'}</span>
+                </li>
+              ))}
+            </ol>
+          )
+        }
+      </Card>
+      <Card>
+        <span class="meta">Independent research</span>
+        <h3>AI safety</h3>
+        <p class="muted">Focused on my SPAR project and building my AI safety literacy.</p>
+        <ol class="milestones">
+          {aiMilestones.map((m) => (
+            <li class:list={['milestone', { done: m.done, ongoing: m.ongoing }]}>
+              <span class="tick" aria-hidden="true">{m.ongoing ? '▸' : m.done ? '✓' : '·'}</span>
+              <span class="label">{m.label}</span>
+              <span class="when">{m.date ?? '—'}</span>
+            </li>
+          ))}
+        </ol>
+      </Card>
     </div>
   </section>
 
