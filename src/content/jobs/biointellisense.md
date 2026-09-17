@@ -15,5 +15,8 @@ order: 1
 - Built clinical outcomes analyses on large-scale EMR data: propensity-score
   matching, Poisson models for mortality and length of stay, and reusable
   comorbidity mappings from CMS reference tables.
+- Contributed to the clinical alerting system, analyzing vitals alarm
+  thresholds (heart rate, respiratory rate) to balance detection sensitivity
+  against alarm fatigue in continuous patient monitoring.
 - Prototyped on/off-body detection, sleep/wake classification, and cuffless
   blood pressure estimation from multimodal wearable signals.

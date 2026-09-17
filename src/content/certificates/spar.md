@@ -13,4 +13,5 @@ links:
     href: https://sparai.org/projects/f26/reck9hzkSGAMop7vj/
 ---
 
-<!-- TODO: one or two lines on what you worked on. -->
+- Fall 2026 cohort. Project: _Loss of Human Agency in the Age of Advanced
+  AI — An Agent-Based Model_, mentored by Zhamilia Klycheva, Ph.D.

@@ -5,6 +5,7 @@ order: 2
 
 ### tv series
 
+- [x] pluribus*
 - [x] the expanse*
 - [x] raised by wolves* _cancelled_
 - [x] constellation* _cancelled_
@@ -13,6 +14,7 @@ order: 2
 - [x] dark*
 - [x] mr. robot*
 - [x] pantheon*
+- [x] silo*
 - [x] foundation
 - [x] star wars: the clone wars*
 - [x] star wars rebels*
@@ -23,7 +25,7 @@ order: 2
 - [x] lost
 - [x] battlestar galactica
 - [x] three body problem _don't bother..._
-- [ ] blossoms shanghai _currently watching_
+- [x] blossoms shanghai
 - [ ] see
 - [x] chief of war*
 - [x] house of the dragon
@@ -34,6 +36,9 @@ order: 2
 - [ ] star trek: lower decks _currently watching_
 - [x] slow horses
 - [x] the good place*
+- [x] friends
+- [x] grace & frankie
+- [x] the big bang theory
 
 ### anime
 
