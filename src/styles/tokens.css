@@ -31,7 +31,7 @@
 
   /* Type: one family, Recursive, always in its monospace setting. Body text
      uses the plain (linear) style; headings turn the casual axis up slightly. */
-  --font: 'Recursive', ui-monospace, monospace;
+  --font: 'Recursive Variable', 'Recursive', ui-monospace, monospace;
   --font-text:    "MONO" 1, "CASL" 0, "CRSV" 0.5;
   --font-heading: "MONO" 1, "CASL" 0.2, "CRSV" 0.5;
 
