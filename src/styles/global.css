@@ -11,7 +11,7 @@ body {
   color: var(--charcoal);
   font-family: var(--font);
   font-variation-settings: var(--font-text);
-  font-weight: 300; /* Recursive Light for body text */
+  font-weight: 350; /* between Light and Regular for body text */
   line-height: 1.7;
   padding-bottom: 6rem;
 }
