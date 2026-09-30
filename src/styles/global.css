@@ -98,7 +98,7 @@ main {
 
 /* ---------- shared type ---------- */
 h1, h2, h3 { font-family: var(--font); color: var(--brown); font-weight: 600; }
-/* Headings and heading-like names get Recursive's casual axis partway up */
+/* Headings and heading-like names get Recursive's casual axis up slightly */
 h1, h2, h3, nav .logo, .index-name, .flip-q { font-variation-settings: var(--font-heading); }
 h1 { font-size: clamp(2rem, 5vw, var(--fs-2xl)); line-height: 1.15; letter-spacing: -0.01em; }
 .page-title { font-size: clamp(1.6rem, 4vw, var(--fs-xl)); margin-bottom: 2rem; }
