@@ -1,12 +1,4 @@
 ---
-// Self-hosted fonts (@fontsource) — brief §2 preferred option.
-import '@fontsource/stix-two-text/400.css';
-import '@fontsource/stix-two-text/600.css';
-import '@fontsource/ibm-plex-sans/400.css';
-import '@fontsource/ibm-plex-sans/500.css';
-import '@fontsource/ibm-plex-sans/600.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
@@ -36,6 +28,14 @@ const year = new Date().getFullYear();
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch (e) {}
     </script>
+    <!-- Recursive with all its variable axes (MONO, CASL, CRSV, slnt, wght). Loaded
+         from Google Fonts for now; can move to a self-hosted copy later. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

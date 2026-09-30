@@ -29,6 +29,20 @@
   --charcoal: var(--text);
   --cyan: var(--accent);
 
+  /* Type: one family, Recursive, always in its monospace setting. Body text
+     uses the plain (linear) style; headings turn the casual axis partway up. */
+  --font: 'Recursive', ui-monospace, monospace;
+  --font-text:    "MONO" 1, "CASL" 0, "CRSV" 0.5;
+  --font-heading: "MONO" 1, "CASL" 0.4, "CRSV" 0.5;
+
+  /* Modular scale: 16px base, ratio 1.25 (major third) */
+  --fs-sm:  0.8rem;     /* 12.8px  labels, dates, card text */
+  --fs-base: 1rem;      /* 16px    body */
+  --fs-md:  1.25rem;    /* 20px    card and row titles */
+  --fs-lg:  1.5625rem;  /* 25px    section headings */
+  --fs-xl:  1.953rem;   /* 31.25px page titles */
+  --fs-2xl: 2.441rem;   /* 39px    name on home */
+
   --maxw: 880px;
 }
 
