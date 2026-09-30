@@ -13,7 +13,9 @@ body {
   padding-bottom: 6rem;
 }
 
-a { color: var(--accent); text-underline-offset: 3px; transition: color 0.15s ease; }
+/* Text links match the text around them (the underline marks them) and
+   only change color on hover. */
+a { color: inherit; text-underline-offset: 3px; transition: color 0.15s ease; }
 a:hover { color: var(--link-hover); }
 
 a:focus-visible, button:focus-visible, summary:focus-visible {
@@ -386,7 +388,6 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .feature h3 { color: var(--bg); font-size: 1.5rem; }
 .feature .feature-body p { font-size: 0.95rem; opacity: 0.9; margin-top: 0.6rem; }
 .feature .meta { color: var(--accent-inverse); }
-.feature a { color: var(--accent-inverse); }
 .feature a:hover { color: var(--link-hover); }
 .feature-shot {
   display: block;
