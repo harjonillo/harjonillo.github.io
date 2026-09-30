@@ -10,7 +10,12 @@
   --text:      #3D3D29;  /* Dark Khaki — headings and body text */
   --accent:    #5C98FF;  /* blue — metadata, links at rest, outlines, hover fills */
   --link-hover:#9DE000;  /* chartreuse — text-link hover ONLY */
-  --accent-inverse: #A3C5FF; /* accent on inverted panels (feature, flip backs) */
+  --accent-inverse: #A3C5FF; /* accent on inverted chips (selected list filters) */
+
+  /* Dark panels (featured project, flip-card backs) stay dark in both modes */
+  --panel-bg:     #3D3D29;
+  --panel-text:   #F7F7F3;
+  --panel-accent: #A3C5FF;
 
   --hair:          rgba(61, 61, 41, 0.13);  /* dividers */
   --border:        rgba(61, 61, 41, 0.16);  /* card borders */
@@ -39,6 +44,7 @@
   --accent:    #A3C5FF;
   --link-hover:#BCFF1F;
   --accent-inverse: #5C98FF;
+  --panel-bg: #474731;
   --hair:          rgba(247, 247, 243, 0.12);
   --border:        rgba(247, 247, 243, 0.14);
   --border-strong: rgba(247, 247, 243, 0.35);
@@ -57,6 +63,7 @@
     --accent:    #A3C5FF;
     --link-hover:#BCFF1F;
     --accent-inverse: #5C98FF;
+    --panel-bg: #474731;
     --hair:          rgba(247, 247, 243, 0.12);
     --border:        rgba(247, 247, 243, 0.14);
     --border-strong: rgba(247, 247, 243, 0.35);
