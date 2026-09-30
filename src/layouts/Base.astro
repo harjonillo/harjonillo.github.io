@@ -1,12 +1,6 @@
 ---
-// Self-hosted fonts (@fontsource) — brief §2 preferred option.
-import '@fontsource/stix-two-text/400.css';
-import '@fontsource/stix-two-text/600.css';
-import '@fontsource/ibm-plex-sans/400.css';
-import '@fontsource/ibm-plex-sans/500.css';
-import '@fontsource/ibm-plex-sans/600.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
+// Self-hosted Recursive with every variable axis (MONO, CASL, CRSV, slnt, wght).
+import '@fontsource-variable/recursive/full.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
@@ -27,6 +21,15 @@ const year = new Date().getFullYear();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      // Apply a saved light/dark choice before first paint. With no saved
+      // choice, tokens.css follows the system setting on its own.
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

@@ -4,7 +4,7 @@ role: Lecturer (part-time)
 start: "Feb 2022"
 end: "May 2022"
 tags: [teaching]
-order: 4
+order: 5
 ---
 
 - Taught introductory electromagnetism lectures and laboratory courses to

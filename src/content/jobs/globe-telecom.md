@@ -4,7 +4,7 @@ role: Insighting Expert — Advanced Analytics
 start: "Jun 2022"
 end: "Dec 2022"
 tags: [geospatial, Python, Tableau]
-order: 3
+order: 4
 ---
 
 - Developed an algorithm to spatially aggregate cell-site activity and
