@@ -4,7 +4,7 @@ role: Data Scientist
 start: "Jul 2019"
 end: "Mar 2022"
 tags: [BigQuery, Python, R]
-order: 5
+order: 6
 ---
 
 - Explored user reviews of a newly acquired health app using NLP.

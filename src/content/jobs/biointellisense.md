@@ -4,10 +4,10 @@ role: Data Scientist — wearable health
 start: "Dec 2024"
 end: "Apr 2026"
 tags: [time-series, biosensors, Python, Databricks]
-order: 1
+order: 2
 ---
 
-- Led development of a core body temperature algorithm from skin and ambient
+- Led exploration of a core body temperature algorithm from skin and ambient
   temperature streams — a physics-informed thermal model feeding a regularized
   regression, validated against clinical reference measurements.
 - Benchmarked vendor and in-house temperature models on clinical trial data

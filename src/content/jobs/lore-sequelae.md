@@ -4,7 +4,7 @@ role: Machine Learning Scientist — NLP & topic modeling
 start: "Dec 2022"
 end: "Nov 2024"
 tags: [NLP, topic models, GCP, Airflow]
-order: 2
+order: 3
 ---
 
 - Designed and productionized topic models that distill community
