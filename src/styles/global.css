@@ -162,7 +162,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .hero .eyebrow { color: var(--text); opacity: 0.7; }
 .hero p.lede {
   font-size: var(--fs-base);
-  max-width: 66ch;
+  max-width: 85%;
   line-height: 1.75;
   margin-top: 1.2rem;
 }
@@ -271,8 +271,8 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .job .role { font-size: var(--fs-base); font-weight: 500; color: var(--charcoal); margin-bottom: 0.4rem; }
 .job ul { padding-left: 1.1rem; font-size: var(--fs-base); }
 .job li { margin-top: 0.3rem; }
-/* keep running text to a readable line length inside the wider column */
-.job ul, .job p, .pub { max-width: 72ch; }
+/* running text fills 85% of its column */
+.job ul, .job p, .pub { max-width: 85%; }
 
 /* ================= RESEARCH ================= */
 /* Education timeline extras — reuses the .job grid, so these sit in its right column. */
@@ -578,7 +578,7 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   font-weight: 600;
   opacity: 1;
 }
-.recipe-page .method { margin-top: 2rem; max-width: 62ch; }
+.recipe-page .method { margin-top: 2rem; max-width: 85%; }
 .recipe-page .method p + p, .recipe-page .method ol, .recipe-page .method ul { margin-top: 0.8rem; }
 .recipe-page .method ol, .recipe-page .method ul { padding-left: 1.2rem; }
 
