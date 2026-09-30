@@ -12,7 +12,7 @@
   --link-hover:#9DE000;  /* chartreuse — text-link hover ONLY */
   --accent-inverse: #A3C5FF; /* accent on inverted chips (selected list filters) */
 
-  /* Dark panels (featured project, flip-card backs) stay dark in both modes */
+  /* Dark panels (flip-card backs) stay dark in both modes */
   --panel-bg:     #3D3D29;
   --panel-text:   #F7F7F3;
   --panel-accent: #A3C5FF;
