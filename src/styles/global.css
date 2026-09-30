@@ -271,6 +271,8 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .job .role { font-size: var(--fs-base); font-weight: 500; color: var(--charcoal); margin-bottom: 0.4rem; }
 .job ul { padding-left: 1.1rem; font-size: var(--fs-base); }
 .job li { margin-top: 0.3rem; }
+/* keep running text to a readable line length inside the wider column */
+.job ul, .job p, .pub { max-width: 72ch; }
 
 /* ================= RESEARCH ================= */
 /* Education timeline extras — reuses the .job grid, so these sit in its right column. */
