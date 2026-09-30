@@ -1,11 +1,68 @@
-/* Design tokens — single source of truth (locked, see astro-project-brief.md §3) */
+/* Design tokens — single source of truth.
+   Light is the default; dark applies when the visitor picks it with the nav
+   toggle (data-theme="dark" on <html>) or, with no saved choice, when their
+   system prefers dark. Keep the two dark blocks below identical. */
 :root {
-  --bg:       #FFF9F2;  /* page background */
-  --card:     #FFFDFA;  /* raised surfaces */
-  --brown:    #473D3D;  /* headings, primary text accents */
-  --charcoal: #364958;  /* body text, dark surfaces */
-  --cyan:     #55828B;  /* metadata, links, ALL hover/interaction states */
-  --mauve:    #DA85FF;  /* favorite stars on /lists — never a hover state */
+  color-scheme: light;
+
+  --bg:        #F7F7F3;  /* Porcelain — page background */
+  --surface:   #FDFDFB;  /* cards, raised surfaces */
+  --text:      #3D3D29;  /* Dark Khaki — headings and body text */
+  --accent:    #5C98FF;  /* blue — metadata, links at rest, outlines, hover fills */
+  --link-hover:#9DE000;  /* chartreuse — text-link hover ONLY */
+  --accent-inverse: #A3C5FF; /* accent on inverted panels (feature, flip backs) */
+
+  --hair:          rgba(61, 61, 41, 0.13);  /* dividers */
+  --border:        rgba(61, 61, 41, 0.16);  /* card borders */
+  --border-strong: rgba(61, 61, 41, 0.35);  /* pills, ghost buttons */
+  --accent-tint:   rgba(92, 152, 255, 0.14);
+  --header-bg:     rgba(247, 247, 243, 0.92);
+  --shadow:        0 1px 2px rgba(61, 61, 41, 0.05);
+  --shadow-lg:     0 8px 20px rgba(61, 61, 41, 0.1);
+
+  --mauve: #DA85FF;  /* favorite stars on /lists — never a hover state */
+
+  /* legacy names still used across global.css */
+  --card: var(--surface);
+  --brown: var(--text);
+  --charcoal: var(--text);
+  --cyan: var(--accent);
 
   --maxw: 880px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:        #3D3D29;
+  --surface:   #474731;
+  --text:      #F7F7F3;
+  --accent:    #A3C5FF;
+  --link-hover:#BCFF1F;
+  --accent-inverse: #5C98FF;
+  --hair:          rgba(247, 247, 243, 0.12);
+  --border:        rgba(247, 247, 243, 0.14);
+  --border-strong: rgba(247, 247, 243, 0.35);
+  --accent-tint:   rgba(163, 197, 255, 0.16);
+  --header-bg:     rgba(61, 61, 41, 0.92);
+  --shadow:        none;
+  --shadow-lg:     0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:        #3D3D29;
+    --surface:   #474731;
+    --text:      #F7F7F3;
+    --accent:    #A3C5FF;
+    --link-hover:#BCFF1F;
+    --accent-inverse: #5C98FF;
+    --hair:          rgba(247, 247, 243, 0.12);
+    --border:        rgba(247, 247, 243, 0.14);
+    --border-strong: rgba(247, 247, 243, 0.35);
+    --accent-tint:   rgba(163, 197, 255, 0.16);
+    --header-bg:     rgba(61, 61, 41, 0.92);
+    --shadow:        none;
+    --shadow-lg:     0 8px 20px rgba(0, 0, 0, 0.25);
+  }
 }

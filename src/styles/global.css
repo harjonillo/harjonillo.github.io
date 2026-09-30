@@ -13,7 +13,8 @@ body {
   padding-bottom: 6rem;
 }
 
-a { color: var(--cyan); }
+a { color: var(--accent); text-underline-offset: 3px; transition: color 0.15s ease; }
+a:hover { color: var(--link-hover); }
 
 a:focus-visible, button:focus-visible, summary:focus-visible {
   outline: 2px solid var(--cyan);
@@ -25,17 +26,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(255, 249, 242, 0.92); /* --bg at slight translucency */
+  background: var(--header-bg); /* --bg at slight translucency */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(71, 61, 61, 0.08);
+  border-bottom: 1px solid var(--hair);
 }
 nav {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 1.1rem 1.5rem 0.9rem;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 1.4rem;
   flex-wrap: wrap;
 }
@@ -48,7 +49,7 @@ nav .logo {
   text-decoration: none;
   border-bottom: 2px solid transparent;
 }
-nav .logo:hover { border-bottom-color: var(--cyan); }
+nav .logo:hover { color: var(--accent); border-bottom-color: var(--accent); }
 nav .logo.is-hidden { visibility: hidden; }
 nav a:not(.logo) {
   font-size: 0.92rem;
@@ -58,12 +59,32 @@ nav a:not(.logo) {
   padding: 0.2rem 0;
   border-bottom: 2px solid transparent;
 }
-nav a:not(.logo):hover { opacity: 1; border-bottom-color: var(--cyan); }
+nav a:not(.logo):hover { opacity: 1; color: var(--accent); border-bottom-color: var(--accent); }
 nav a[aria-current="page"] {
   opacity: 1;
   font-weight: 500;
   border-bottom-color: var(--charcoal);
 }
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.theme-toggle:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+/* show the moon in light mode (switch to dark) and the sun in dark mode */
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
 main {
   max-width: var(--maxw);
@@ -91,10 +112,10 @@ section + section { margin-top: 3.5rem; }
 /* ---------- cards ---------- */
 .card {
   background: var(--card);
-  border: 1px solid rgba(210, 201, 190, 0.92);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
   padding: 1.5rem 1.7rem;
-  box-shadow: 0 1px 2px rgba(71, 61, 61, 0.05);
+  box-shadow: var(--shadow);
 }
 .card + .card { margin-top: 1rem; }
 a.card { display: block; text-decoration: none; color: inherit; }
@@ -113,20 +134,20 @@ a.card { display: block; text-decoration: none; color: inherit; }
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
   background: transparent;
-  border: 1px solid rgba(54, 73, 88, 0.4);
+  border: 1px solid var(--border-strong);
   color: var(--charcoal);
   border-radius: 999px;
   padding: 0.15rem 0.65rem;
   margin: 0.15rem 0.2rem 0 0;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.pill:hover { background: rgba(85, 130, 139, 0.14); border-color: var(--cyan); }
+.pill:hover { background: var(--accent-tint); border-color: var(--accent); }
 .pill.alt { border-color: var(--cyan); color: var(--cyan); }
-.pill.alt:hover { background: rgba(85, 130, 139, 0.14); }
+.pill.alt:hover { background: var(--accent-tint); }
 
 /* ================= HOME ================= */
 .hero { padding-top: 1.5rem; }
-.hero .eyebrow { color: var(--brown); opacity: 0.7; }
+.hero .eyebrow { color: var(--text); opacity: 0.7; }
 .hero p.lede {
   font-size: 1.12rem;
   max-width: 58ch;
@@ -137,11 +158,12 @@ a.card { display: block; text-decoration: none; color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border-color: var(--cyan);
-  color: var(--cyan);
+  border: 1.5px dotted var(--accent);
+  color: var(--accent);
   margin: 0;
   padding: 0.3rem 0.75rem;
 }
+.pill.status:hover { background: transparent; border-color: var(--accent); } /* status, not a control */
 .status-dot {
   width: 0.5rem;
   height: 0.5rem;
@@ -151,8 +173,8 @@ a.card { display: block; text-decoration: none; color: inherit; }
   animation: status-pulse 2.4s ease-in-out infinite;
 }
 @keyframes status-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(85, 130, 139, 0.5); }
-  50%      { box-shadow: 0 0 0 0.28rem rgba(85, 130, 139, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent); }
+  50%      { box-shadow: 0 0 0 0.28rem color-mix(in srgb, var(--accent) 0%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
   .status-dot { animation: none; }
@@ -172,38 +194,66 @@ a.card { display: block; text-decoration: none; color: inherit; }
   font-size: 0.92rem;
   font-weight: 500;
   text-decoration: none;
-  border-radius: 8px;
-  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
   cursor: pointer;
   border: none;
   font-family: inherit;
   transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.btn.primary { background: var(--charcoal); color: var(--bg); }
-.btn.primary:hover { background: var(--brown); box-shadow: 0 2px 10px rgba(85, 130, 139, 0.45); }
-.btn.ghost { background: transparent; color: var(--charcoal); border: 1px solid rgba(54, 73, 88, 0.35); }
-.btn.ghost:hover { border-color: var(--cyan); background: rgba(85, 130, 139, 0.12); }
+/* Outlined at rest; on hover the blue fills in and the label takes the page
+   color, so it reads as cut out of the fill. */
+.btn.primary { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+.btn.primary:hover { background: var(--accent); color: var(--bg); }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
+.btn.ghost:hover { border-color: var(--accent); background: var(--accent-tint); color: var(--text); }
 
-.quick-cards { margin-top: 4rem; }
-.quick-cards .card h3 { font-size: 1.1rem; margin-bottom: 0.35rem; }
-.quick-cards .card p { font-size: 0.92rem; }
-.quick-cards .card {
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+/* Index list — the Explore section on home and the /off-hours hub.
+   Rows bleed 14px past the text column so the hover fill has breathing room
+   while the text stays aligned with the rest of the page. The fill runs
+   exactly divider to divider. */
+.explore { margin-top: 4rem; }
+.index-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -14px;
+  border-bottom: 1px solid var(--hair);
 }
-.quick-cards .card:hover {
-  transform: translateY(-3px);
-  border-color: var(--cyan);
-  box-shadow: 0 8px 20px rgba(71, 61, 61, 0.1);
+.index-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 24px;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 14px;
+  border-top: 1px solid var(--hair);
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+.index-name {
+  font-family: 'STIX Two Text', serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+.index-desc { font-size: 0.95rem; opacity: 0.72; }
+.index-arrow { color: var(--accent); display: flex; align-self: center; transition: transform 0.15s ease; }
+.index-row:hover { background: var(--accent); color: var(--bg); }
+.index-row:hover .index-desc { opacity: 1; }
+.index-row:hover .index-arrow { color: var(--bg); transform: translateX(4px); }
+@media (max-width: 640px) {
+  .index-row { grid-template-columns: minmax(0, 1fr) 24px; row-gap: 0.15rem; }
+  .index-desc { grid-column: 1; grid-row: 2; }
+  .index-arrow { grid-column: 2; grid-row: 1 / span 2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .quick-cards .card, .quick-cards .card:hover { transform: none; }
+  .index-row:hover .index-arrow { transform: none; }
 }
 
 /* ================= WORK ================= */
 .job { display: grid; grid-template-columns: 130px 1fr; gap: 1.5rem; }
 @media (max-width: 640px) { .job { grid-template-columns: 1fr; gap: 0.3rem; } }
-.job + .job { margin-top: 2.2rem; padding-top: 2.2rem; border-top: 1px solid rgba(71, 61, 61, 0.12); }
+.job + .job { margin-top: 2.2rem; padding-top: 2.2rem; border-top: 1px solid var(--hair); }
 .job h3 { font-size: 1.15rem; }
 .job .role { font-size: 0.95rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.4rem; }
 .job ul { padding-left: 1.1rem; font-size: 0.95rem; }
@@ -231,7 +281,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--cyan);
-  border: 1px solid rgba(85, 130, 139, 0.45);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   border-radius: 999px;
   padding: 0.05rem 0.45rem;
   margin-left: 0.45rem;
@@ -260,7 +310,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .tl-item + .tl-item {
   margin-top: 2.2rem;
   padding-top: 2.2rem;
-  border-top: 1px solid rgba(71, 61, 61, 0.12);
+  border-top: 1px solid var(--hair);
 }
 
 /* The education column stays a natural, readable stack (its card tops calibrate
@@ -284,7 +334,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
   bottom: 0;
   width: 2px;
   transform: translateX(-50%);
-  background: rgba(85, 130, 139, 0.3); /* --cyan, faint */
+  background: color-mix(in srgb, var(--accent) 30%, transparent); /* accent, faint */
 }
 /* Year markers the script drops onto the axis, one per end-year, aligned to the
    card that ended that year. */
@@ -325,7 +375,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .feature {
   background: var(--charcoal);
   color: var(--bg);
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 2rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -335,14 +385,15 @@ a.card { display: block; text-decoration: none; color: inherit; }
 @media (max-width: 700px) { .feature { grid-template-columns: 1fr; } }
 .feature h3 { color: var(--bg); font-size: 1.5rem; }
 .feature .feature-body p { font-size: 0.95rem; opacity: 0.9; margin-top: 0.6rem; }
-.feature .meta { color: #8FB3BB; }
-.feature a { color: #8FB3BB; }
+.feature .meta { color: var(--accent-inverse); }
+.feature a { color: var(--accent-inverse); }
+.feature a:hover { color: var(--link-hover); }
 .feature-shot {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 8px;
-  border: 1px solid rgba(252, 246, 238, 0.2);
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--bg) 20%, transparent);
 }
 .project-links { margin-top: 0.7rem; display: flex; gap: 1rem; font-size: 0.9rem; }
 
@@ -364,7 +415,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .milestone.done { opacity: 1; }
 .milestone.ongoing { opacity: 1; }
 .milestone.ongoing .tick, .milestone.ongoing .when { opacity: 1; font-weight: 600; }
-.milestone + .milestone { border-top: 1px solid rgba(54, 73, 88, 0.1); }
+.milestone + .milestone { border-top: 1px solid var(--hair); }
 .milestone .tick { color: var(--cyan); text-align: center; }
 .milestone .note {
   display: block;
@@ -384,24 +435,24 @@ a.card { display: block; text-decoration: none; color: inherit; }
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   background: transparent;
-  border: 1px solid rgba(54, 73, 88, 0.3);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   color: var(--charcoal);
   padding: 0.3rem 0.9rem;
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.art-filters button:hover { border-color: var(--cyan); background: rgba(85, 130, 139, 0.12); }
+.art-filters button:hover { border-color: var(--accent); background: var(--accent-tint); }
 .art-filters button.on { background: var(--charcoal); color: var(--bg); border-color: var(--charcoal); }
 .art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
 .art-item {
   aspect-ratio: 4 / 5;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   align-items: flex-end;
   padding: 0.8rem;
-  color: var(--bg);
+  color: #F7F7F3; /* always light: sits on the artwork */
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.06em;
@@ -418,13 +469,14 @@ a.card { display: block; text-decoration: none; color: inherit; }
 /* lightbox */
 dialog.lightbox {
   border: none;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 0;
   background: var(--card);
+  color: var(--text);
   max-width: min(90vw, 720px);
   margin: auto;
 }
-dialog.lightbox::backdrop { background: rgba(54, 73, 88, 0.55); }
+dialog.lightbox::backdrop { background: rgba(61, 61, 41, 0.6); }
 dialog.lightbox img, dialog.lightbox .lightbox-swatch {
   display: block;
   width: 100%;
@@ -441,7 +493,7 @@ dialog.lightbox .lightbox-close {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(54, 73, 88, 0.35);
+  border: 1px solid var(--border-strong);
   background: var(--card);
   color: var(--charcoal);
   font-size: 1.1rem;
@@ -454,15 +506,15 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
 /* ================= RECIPES ================= */
 .recipe-card h3 { font-size: 1.2rem; }
 .recipe-card h3 a { color: inherit; text-decoration: none; }
-.recipe-card h3 a:hover { color: var(--cyan); }
+.recipe-card h3 a:hover { color: var(--accent); }
 /* whole card links to the full recipe (stretched link); the scaler sits
    above it so the +/− buttons stay clickable */
 .recipe-card {
   position: relative;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
-.recipe-card:hover { border-color: var(--cyan); box-shadow: 0 8px 20px rgba(71, 61, 61, 0.1); }
-.recipe-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
+.recipe-card:hover { border-color: var(--accent); box-shadow: var(--shadow-lg); }
+.recipe-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 4px; }
 .recipe-card .servings, .recipe-card table { position: relative; z-index: 1; }
 .servings {
   display: flex;
@@ -491,7 +543,7 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   opacity: 0.75;
 }
 .recipe-card table, .recipe-page table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-.recipe-card td, .recipe-page td { padding: 0.3rem 0; border-bottom: 1px dashed rgba(71, 61, 61, 0.15); }
+.recipe-card td, .recipe-page td { padding: 0.3rem 0; border-bottom: 1px dashed var(--border); }
 .recipe-card td.amount, .recipe-page td.amount {
   font-family: 'JetBrains Mono', monospace;
   color: var(--brown);
@@ -507,7 +559,7 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
 }
 .recipe-page tfoot td {
   border-bottom: none;
-  border-top: 1px solid rgba(71, 61, 61, 0.3);
+  border-top: 1px solid var(--border-strong);
   font-weight: 600;
   opacity: 1;
 }
@@ -550,14 +602,14 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   justify-content: space-between;
   gap: 0.8rem;
   padding: 1.1rem 1.2rem;
-  border-radius: 10px;
+  border-radius: 4px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 .flip-front {
-  background: rgba(85, 130, 139, 0.12); /* light cyan tint */
-  border: 1px solid rgba(85, 130, 139, 0.3);
-  box-shadow: 0 1px 2px rgba(71, 61, 61, 0.05);
+  background: var(--accent-tint);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: var(--shadow);
   transition: border-color 0.18s ease;
 }
 .flip-card:hover .flip-front { border-color: var(--cyan); }
@@ -573,15 +625,15 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   transform: rotateY(180deg);
 }
 .flip-a { font-size: 0.98rem; }
-.flip-back .meta { color: #8FB3BB; }
+.flip-back .meta { color: var(--accent-inverse); }
 
 .list-filters { margin-bottom: 2.5rem; }
 /* the chip icons keep the legend's colors */
 .list-filters .fi-star { color: var(--mauve); }
 .list-filters .fi-x { color: var(--cyan); }
-.list-filters .fi-o { color: rgba(54, 73, 88, 0.45); }
-.list-filters button.on .fi-x { color: #8FB3BB; }
-.list-filters button.on .fi-o { color: rgba(255, 249, 242, 0.55); }
+.list-filters .fi-o { color: color-mix(in srgb, var(--text) 45%, transparent); }
+.list-filters button.on .fi-x { color: var(--accent-inverse); }
+.list-filters button.on .fi-o { color: color-mix(in srgb, var(--bg) 55%, transparent); }
 .lists-layout {
   display: grid;
   grid-template-columns: 1fr 160px;
@@ -610,7 +662,7 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   padding-bottom: 1px;
   align-self: flex-start;
 }
-.lists-toc a:hover { opacity: 1; border-bottom-color: var(--cyan); }
+.lists-toc a:hover { opacity: 1; color: var(--accent); border-bottom-color: var(--accent); }
 .lists-toc a.active { opacity: 1; font-weight: 500; border-bottom-color: var(--charcoal); }
 @media (max-width: 720px) {
   .lists-layout { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -655,7 +707,7 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8em;
   margin-right: 0.6em;
-  color: rgba(54, 73, 88, 0.45);
+  color: color-mix(in srgb, var(--text) 45%, transparent);
 }
 .list-body .task-list-item:has(> input:checked)::before {
   content: "[x]";
