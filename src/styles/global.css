@@ -622,12 +622,13 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
   color: var(--brown);
 }
 .flip-back {
-  background: var(--panel-bg);
-  color: var(--panel-text);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
   transform: rotateY(180deg);
 }
 .flip-a { font-size: 0.98rem; }
-.flip-back .meta { color: var(--panel-accent); }
 
 .list-filters { margin-bottom: 2.5rem; }
 /* the chip icons keep the legend's colors */
