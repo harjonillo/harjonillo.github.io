@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#FFF9F2"/>
-  <text x="32" y="44" font-family="STIX Two Text, Georgia, serif" font-size="28" font-weight="600" fill="#473D3D" text-anchor="middle">ha.</text>
+  <style>
+    .bg { fill: #F7F7F3; }  /* porcelain */
+    .fg { fill: #5C98FF; }  /* cornflower blue — light-mode accent */
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #3E3A37; }
+      .fg { fill: #A3C5FF; }  /* dark-mode accent, same hue lightened */
+    }
+  </style>
+  <rect class="bg" width="64" height="64" rx="12"/>
+  <text class="fg" x="32" y="43" font-family="'Recursive Variable', 'Recursive', ui-monospace, monospace" font-size="30" font-weight="600" text-anchor="middle">ha</text>
 </svg>

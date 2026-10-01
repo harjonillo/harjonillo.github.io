@@ -7,10 +7,10 @@
 
   --bg:        #F7F7F3;  /* Porcelain — page background */
   --surface:   #FDFDFB;  /* cards, raised surfaces */
-  --text:      #505168;  /* Dark Khaki — headings and body text */
-  --accent:    #5C98FF;  /* blue — metadata, links at rest, outlines, hover fills */
-  --link-hover:#9DE000;  /* chartreuse — text-link hover ONLY */
-  --accent-inverse: #A3C5FF; /* accent on inverted chips (selected list filters) */
+  --text:      #3E3A37;  /* Dark Khaki — headings and body text */
+  --accent:    #4775FF;  /* blue — metadata, links at rest, outlines, hover fills */
+  --link-hover:#B5FD0D;  /* chartreuse — text-link hover ONLY */
+  --accent-inverse: #70A5FF; /* accent on inverted chips (selected list filters) */
 
 
   --hair:          rgba(61, 61, 41, 0.13);  /* dividers */
