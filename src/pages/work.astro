@@ -12,9 +12,35 @@ const jobs = (await getCollection('jobs')).sort((a, b) => a.data.order - b.data.
   description="AI, ML, and data science: biomedical wearables, telecom, health insurance — production ML end to end."
 >
   <Eyebrow>Work experience</Eyebrow>
-  <h1 class="page-title">Data Science / ML / AI in healthcare</h1>
+  <div class="work-title-row">
+    <h1 class="page-title">Data Science / ML / AI in healthcare</h1>
+    <div class="cv-widget">
+      <span class="pill status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Open to full-time roles
+      </span>
+      <a class="pill cv-button" href="/cv/hannah-arjonillo-cv.pdf" download aria-label="Download CV (PDF)" title="Download CV">
+        <svg class="cv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12" /><path d="m7 11 5 5 5-5" /><path d="M5 21h14" />
+        </svg>
+      </a>
+    </div>
+  </div>
 
   <section>
     {jobs.map((job) => <JobEntry job={job} />)}
   </section>
 </Base>
+
+<style>
+  .work-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  /* row owns the spacing before the job list; title keeps the pill centered on it */
+  .work-title-row .page-title { margin-bottom: 0; }
+</style>
