@@ -8,9 +8,9 @@
   --bg:        #F7F7F3;  /* Porcelain — page background */
   --surface:   #FDFDFB;  /* cards, raised surfaces */
   --text:      #3E3A37;  /* Dark Khaki — headings and body text */
-  --accent:    #4775FF;  /* blue — metadata, links at rest, outlines, hover fills */
-  --link-hover:#B5FD0D;  /* chartreuse — text-link hover ONLY */
-  --accent-inverse: #70A5FF; /* accent on inverted chips (selected list filters) */
+  --accent:    #3B78E2;  /* blue — metadata, links at rest, outlines, hover fills */
+  --link-hover:#A2E110;  /* chartreuse — text-link hover ONLY */
+  --accent-inverse: #A3C5FF; /* accent on inverted chips (selected list filters) */
 
 
   --hair:          rgba(61, 61, 41, 0.13);  /* dividers */
@@ -52,8 +52,8 @@
   --surface:   #56514D;
   --text:      #F7F7F3;
   --accent:    #A3C5FF;
-  --link-hover:#CDFD5D;
-  --accent-inverse: #5C98FF;
+  --link-hover:#C2FF33;
+  --accent-inverse: #3B78E2;
   --hair:          rgba(247, 247, 243, 0.12);
   --border:        rgba(247, 247, 243, 0.14);
   --border-strong: rgba(247, 247, 243, 0.35);
@@ -70,8 +70,8 @@
     --surface:   #56514D;
     --text:      #F7F7F3;
     --accent:    #A3C5FF;
-    --link-hover:#CDFD5D;
-    --accent-inverse: #5C98FF;
+    --link-hover:#C2FF33;
+    --accent-inverse: #3B78E2;
     --hair:          rgba(247, 247, 243, 0.12);
     --border:        rgba(247, 247, 243, 0.14);
     --border-strong: rgba(247, 247, 243, 0.35);

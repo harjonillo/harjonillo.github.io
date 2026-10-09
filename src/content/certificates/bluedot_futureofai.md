@@ -2,7 +2,7 @@
 program: BlueDot Impact
 credential: "Future of AI"
 end: "AUG 2026"
-order: 2
+order: 3
 # Uncomment and fill in any clickable links (certificate, writeup):
 links:
   - label: Certificate
