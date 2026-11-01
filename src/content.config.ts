@@ -41,6 +41,7 @@ const projects = defineCollection({
       demo: z.string().optional(),
       image: image().optional(), // screenshot shown on the featured hero
       featured: z.boolean(), // featured → dark hero treatment on /projects
+      order: z.number(), // manual sort of the grid cards — lower comes first
     }),
 });
 
