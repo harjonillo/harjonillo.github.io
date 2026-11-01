@@ -5,7 +5,8 @@ stack: [TypeScript, React, Canvas, Vite]
 repo: https://github.com/harjonillo/virtual-workbench-optics
 demo: https://harjonillo.github.io/virtual-workbench-optics/
 image: ../../assets/projects/virtual_optical_bench.png
-featured: true
+featured: false
+order: 1
 ---
 
 An interactive ray-optics sandbox for physics education — drag lenses and

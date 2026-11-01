@@ -5,7 +5,7 @@ import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 
-const projects = await getCollection('projects');
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(
   projects.map(async (project) => ({ project, Content: (await render(project)).Content })),
 );
@@ -15,7 +15,7 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
 
 <Base
   title="Projects — Hannah Arjonillo"
-  description="Things you can click: an interactive optical bench, chord recognition on Chopin, and this site."
+  description="Things you can click: an island of LLM villagers, an interactive optical bench, Monte Carlo optics, chord recognition on Chopin, and this site."
 >
   <Eyebrow>Projects</Eyebrow>
   <h1 class="page-title">Things you can click</h1>
