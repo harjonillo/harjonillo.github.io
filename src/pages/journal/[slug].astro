@@ -1,0 +1,232 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import {
+  getJournal,
+  neighbors,
+  entryLabel,
+  entryNumber,
+  formatDate,
+  isoDate,
+  type JournalEntry,
+} from '../../lib/journal';
+import { readTime } from '../../lib/readTime';
+
+export async function getStaticPaths() {
+  const all = await getJournal(); // drafts get no page in production
+  return all.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, ...neighbors(entry, all) },
+  }));
+}
+
+interface Props {
+  entry: JournalEntry;
+  prev?: JournalEntry;
+  next?: JournalEntry;
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content, headings } = await render(entry);
+const sections = headings.filter((h) => h.depth === 2);
+const project = entry.data.project ? await getEntry(entry.data.project) : undefined;
+const projectHref = project ? `/projects#${project.id}` : undefined;
+const label = entryLabel(entry);
+const read = readTime(entry.body);
+const { title, summary, date, thread, draft } = entry.data;
+---
+
+<Base title={`${title} — Hannah Arjonillo`} description={summary} ogType="article">
+  <!-- Compact bar: sticks under the nav once the header row scrolls away. -->
+  <div slot="subheader" class="entry-bar" hidden>
+    <div class="entry-bar-row">
+      <span class="entry-bar-label">{label}</span>
+      <span class="entry-bar-title">{title}</span>
+      <span class="entry-bar-read">{read}</span>
+      {
+        sections.length > 0 && (
+          <details class="entry-pill">
+            <summary>
+              <span class="entry-pill-prefix">Contents:</span>
+              <span class="entry-pill-current">{sections[0].text}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <ol>
+              {sections.map((h) => (
+                <li><a href={`#${h.slug}`}>{h.text}</a></li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
+      {project && <a class="entry-bar-project" href={projectHref}>{project.data.title} →</a>}
+    </div>
+    <div class="entry-progress" aria-hidden="true"></div>
+  </div>
+
+  <div class="entry-row entry-head">
+    <div class="entry-main">
+      <a class="entry-back" href="/journal">← Journal</a>
+      <span class="eyebrow entry-meta">
+        {label} · <time datetime={isoDate(date)}>{formatDate(date)}</time> · {read}{draft && ' · draft'}
+      </span>
+      <h1 class="page-title">{title}</h1>
+      <p class="entry-summary">{summary}</p>
+    </div>
+    <aside class="entry-rail" aria-label="On this page">
+      {
+        sections.length > 0 && (
+          <div>
+            <span class="entry-label">Contents</span>
+            <ol class="entry-toc">
+              {sections.map((h) => (
+                <li><a href={`#${h.slug}`}>{h.text}</a></li>
+              ))}
+            </ol>
+          </div>
+        )
+      }
+      {
+        project && (
+          <a class="card entry-project" href={projectHref}>
+            <span class="meta">Related project</span>
+            <span class="entry-project-title">{project.data.title} →</span>
+            <span class="entry-project-cat">{project.data.category}</span>
+          </a>
+        )
+      }
+    </aside>
+  </div>
+
+  <div class="entry-body">
+    <Content />
+  </div>
+
+  {
+    (prev || next) && (
+      <nav class="entry-more" aria-label="More in this thread">
+        <span class="entry-label">More in {thread}</span>
+        <div class="index-list">
+          {prev && (
+            <a class="entry-pager" href={`/journal/${prev.id}`}>
+              <span class="entry-pager-num">← {entryNumber(prev)}</span>
+              <span class="entry-pager-title">{prev.data.title}</span>
+            </a>
+          )}
+          {next && (
+            <a class="entry-pager" href={`/journal/${next.id}`}>
+              <span class="entry-pager-num">{entryNumber(next)} →</span>
+              <span class="entry-pager-title">{next.data.title}</span>
+            </a>
+          )}
+        </div>
+      </nav>
+    )
+  }
+</Base>
+
+<script>
+  // Compact bar, current section and reading progress. Without JS the bar
+  // stays hidden and the page reads top to bottom as normal.
+  const bar = document.querySelector<HTMLElement>('.entry-bar');
+  const head = document.querySelector<HTMLElement>('.entry-head');
+  const nav = document.querySelector<HTMLElement>('.site-header nav');
+  const body = document.querySelector<HTMLElement>('.entry-body');
+
+  if (bar && head && nav && body) {
+    const root = document.documentElement;
+    const progress = bar.querySelector<HTMLElement>('.entry-progress');
+    const pill = bar.querySelector<HTMLDetailsElement>('.entry-pill');
+    const pillLabel = bar.querySelector<HTMLElement>('.entry-pill-current');
+    const end = document.querySelector<HTMLElement>('.entry-more');
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.entry-toc a, .entry-pill a')];
+    const sections = [...new Set(links.map((a) => decodeURIComponent(a.hash.slice(1))))]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let navH = nav.offsetHeight;
+    let barH = 49; // re-measured once the bar is visible
+    let offset = 0;
+    const setOffset = () => {
+      offset = navH + barH + 16;
+      root.style.setProperty('--entry-offset', `${offset}px`);
+    };
+    setOffset();
+
+    // --- current section + progress, at most once a frame ---
+    let queued = false;
+    const update = () => {
+      queued = false;
+      let current = sections[0];
+      for (const s of sections) if (s.getBoundingClientRect().top < offset + 4) current = s;
+      if (current) {
+        for (const a of links) {
+          const on = decodeURIComponent(a.hash.slice(1)) === current.id;
+          if (on) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        }
+        const active = links.find((a) => a.getAttribute('aria-current'));
+        if (pillLabel && active) pillLabel.textContent = active.textContent;
+      }
+      if (progress && !bar.hidden) {
+        const start = head.getBoundingClientRect().bottom;
+        const stop = end ? end.getBoundingClientRect().top : body.getBoundingClientRect().bottom;
+        const span = Math.max(1, stop - start - innerHeight * 0.5);
+        const p = Math.min(1, Math.max(0, (navH - start) / span));
+        progress.style.transform = `scaleX(${p})`;
+      }
+    };
+    const schedule = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(update);
+      }
+    };
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+
+    // --- show the bar once the header row is under the nav ---
+    // The threshold is the nav's height only: counting the bar too would move
+    // it when the bar appears, and the bar could flicker at the boundary.
+    let observer: IntersectionObserver | undefined;
+    const observe = () => {
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        ([e]) => {
+          const show = !e.isIntersecting && e.boundingClientRect.top < navH;
+          if (show === !bar.hidden) return;
+          bar.hidden = !show;
+          if (show) barH = bar.offsetHeight;
+          else if (pill) pill.open = false;
+          setOffset();
+          schedule();
+        },
+        { rootMargin: `-${navH}px 0px 0px 0px` },
+      );
+      observer.observe(head);
+    };
+    observe();
+    new ResizeObserver(() => {
+      if (nav.offsetHeight === navH) return;
+      navH = nav.offsetHeight;
+      setOffset();
+      observe();
+    }).observe(nav);
+    schedule();
+
+    // --- contents pill: close on pick, Escape, or a click elsewhere ---
+    if (pill) {
+      const summary = pill.querySelector('summary');
+      pill.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => (pill.open = false)));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pill.open) {
+          pill.open = false;
+          summary?.focus();
+        }
+      });
+      document.addEventListener('click', (e) => {
+        if (pill.open && !pill.contains(e.target as Node)) pill.open = false;
+      });
+    }
+  }
+</script>

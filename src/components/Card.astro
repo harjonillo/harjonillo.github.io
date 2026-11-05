@@ -2,18 +2,19 @@
 interface Props {
   href?: string;
   class?: string;
+  id?: string;
 }
 
-const { href, class: className } = Astro.props;
+const { href, class: className, id } = Astro.props;
 ---
 
 {
   href ? (
-    <a class:list={['card', className]} href={href}>
+    <a class:list={['card', className]} href={href} id={id}>
       <slot />
     </a>
   ) : (
-    <div class:list={['card', className]}>
+    <div class:list={['card', className]} id={id}>
       <slot />
     </div>
   )

@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { z } from 'astro:schema';
 import { glob } from 'astro/loaders';
 
@@ -160,4 +160,19 @@ const art = defineCollection({
     }),
 });
 
-export const collections = { jobs, publications, projects, recipes, education, certificates, art, lists };
+// Lab journal at /journal. Name files <thread>-<NNN>-<short-name>.md; the file
+// id is the URL slug. Loading, sorting and checks live in src/lib/journal.ts.
+const journal = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string(), // one line: index row, entry summary, meta description
+    thread: z.string(), // must be listed in THREADS in src/lib/journal.ts
+    entry: z.number().int().positive(), // number within the thread, shown as #002
+    project: reference('projects').optional(), // id of a projects entry
+    draft: z.boolean().default(false), // excluded from production builds
+  }),
+});
+
+export const collections = { jobs, publications, projects, recipes, education, certificates, art, lists, journal };

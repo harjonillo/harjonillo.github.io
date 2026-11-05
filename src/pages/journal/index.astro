@@ -1,0 +1,122 @@
+---
+import Base from '../../layouts/Base.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import {
+  getJournal,
+  entryLabel,
+  formatDay,
+  isoDate,
+  yearOf,
+  threadCounts,
+} from '../../lib/journal';
+import { readTime } from '../../lib/readTime';
+
+const entries = await getJournal();
+const threads = threadCounts(entries);
+
+// Group by year; entries are already newest first.
+const years: { year: number; items: typeof entries }[] = [];
+for (const e of entries) {
+  const year = yearOf(e.data.date);
+  const group = years.at(-1);
+  if (group?.year === year) group.items.push(e);
+  else years.push({ year, items: [e] });
+}
+---
+
+<Base
+  title="Lab journal — Hannah Arjonillo"
+  description="Working notes, one small question at a time."
+>
+  <div class="journal-head">
+    <Eyebrow>Journal</Eyebrow>
+    <h1 class="page-title">Lab journal</h1>
+    <!-- Placeholder intro from the mockup; to be rewritten. -->
+    <p class="journal-intro">
+      Working notes, one small question at a time. Most entries follow a thread: the
+      island of LLM villagers, my BlueDot coursework, and design notes on type and plots.
+    </p>
+  </div>
+
+  {
+    entries.length === 0 ? (
+      <p class="muted journal-empty">No entries yet.</p>
+    ) : (
+      <>
+        {threads.length > 1 && (
+          <div class="art-filters journal-filters" role="group" aria-label="Filter by thread" hidden>
+            <button type="button" class="on" aria-pressed="true" data-thread="all">
+              all <span class="count">{entries.length}</span>
+            </button>
+            {threads.map(({ thread, count }) => (
+              <button type="button" aria-pressed="false" data-thread={thread}>
+                {thread} <span class="count">{count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {years.map(({ year, items }) => (
+          <div class="journal-year-group">
+            <h2 class="journal-year">{year}</h2>
+            <div class="index-list">
+              {items.map((e) => (
+                <a class="index-row journal-row" href={`/journal/${e.id}`} data-thread={e.data.thread}>
+                  <span class="meta journal-date">
+                    <time datetime={isoDate(e.data.date)}>{formatDay(e.data.date)}</time>
+                  </span>
+                  <span class="journal-text">
+                    <span class="index-name">{e.data.title}</span>
+                    <span class="index-desc">{e.data.summary}</span>
+                    <span class="meta">
+                      {entryLabel(e)} · {readTime(e.body)}
+                      {e.data.draft && ' · draft'}
+                    </span>
+                  </span>
+                  <span class="index-arrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </>
+    )
+  }
+</Base>
+
+<script>
+  // Thread filter. Without JS the buttons stay hidden and every row shows.
+  // `?thread=llm-abm` opens a filtered view, so other pages can link to one.
+  const group = document.querySelector<HTMLElement>('.journal-filters');
+  if (group) {
+    const buttons = [...group.querySelectorAll<HTMLButtonElement>('button')];
+    const rows = [...document.querySelectorAll<HTMLElement>('.journal-row')];
+    const years = [...document.querySelectorAll<HTMLElement>('.journal-year-group')];
+    const known = new Set(buttons.map((b) => b.dataset.thread));
+
+    const apply = (thread: string, updateUrl: boolean) => {
+      for (const b of buttons) {
+        const on = b.dataset.thread === thread;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', String(on));
+      }
+      for (const row of rows) row.hidden = thread !== 'all' && row.dataset.thread !== thread;
+      for (const year of years) {
+        year.hidden = !year.querySelector('.journal-row:not([hidden])');
+      }
+      if (updateUrl) {
+        const url = new URL(location.href);
+        if (thread === 'all') url.searchParams.delete('thread');
+        else url.searchParams.set('thread', thread);
+        history.replaceState(null, '', url);
+      }
+    };
+
+    const requested = new URLSearchParams(location.search).get('thread');
+    apply(requested && known.has(requested) ? requested : 'all', false);
+    for (const b of buttons) b.addEventListener('click', () => apply(b.dataset.thread ?? 'all', true));
+    group.hidden = false;
+  }
+</script>

@@ -9,9 +9,10 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
 }
 
-const { title, description, ogImage = '/og/default.png' } = Astro.props;
+const { title, description, ogImage = '/og/default.png', ogType = 'website' } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
 const year = new Date().getFullYear();
 ---
@@ -34,7 +35,7 @@ const year = new Date().getFullYear();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -42,7 +43,7 @@ const year = new Date().getFullYear();
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <Nav />
+    <Nav><slot name="subheader" /></Nav>
     <main>
       <slot />
     </main>

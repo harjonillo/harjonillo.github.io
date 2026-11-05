@@ -44,6 +44,20 @@
   --fs-2xl: 2.441rem;   /* 39px    name on home */
 
   --maxw: 1120px;  /* page column; running text uses 85% of it */
+
+  /* Code blocks (Shiki's css-variables theme, journal only). These point at
+     the tokens above, so they follow light/dark without repeating below. */
+  --astro-code-foreground: var(--text);
+  --astro-code-background: var(--surface);
+  --astro-code-token-keyword: var(--accent);
+  --astro-code-token-function: var(--accent);
+  --astro-code-token-comment: color-mix(in srgb, var(--text) 55%, transparent);
+  --astro-code-token-constant: var(--text);
+  --astro-code-token-string: var(--text);
+  --astro-code-token-string-expression: var(--text);
+  --astro-code-token-parameter: var(--text);
+  --astro-code-token-punctuation: var(--text);
+  --astro-code-token-link: var(--accent);
 }
 
 :root[data-theme="dark"] {
