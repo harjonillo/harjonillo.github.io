@@ -2,12 +2,12 @@ import { useRef, useState } from 'react';
 
 export type ArtPiece = {
   title: string;
-  medium: 'ink' | 'watercolor' | 'acrylic' | 'oil';
+  medium: 'ink' | 'watercolor' | 'acrylic' | 'oil' | 'digital';
   year?: number;
   image?: string;
 };
 
-const FILTERS = ['all', 'ink', 'watercolor', 'acrylic', 'oil'] as const;
+const FILTERS = ['all', 'ink', 'watercolor', 'acrylic', 'oil', 'digital'] as const;
 type Filter = (typeof FILTERS)[number];
 
 // Stand-in swatches until real scans land (see brief §10, step 6).
@@ -16,6 +16,7 @@ const FALLBACK: Record<ArtPiece['medium'], string> = {
   watercolor: '#55828B',
   acrylic: '#473D3D',
   oil: '#5E504F',
+  digital: '#3E5C6B',
 };
 
 export default function ArtGallery({ pieces }: { pieces: ArtPiece[] }) {

@@ -501,6 +501,19 @@ a.card { display: block; text-decoration: none; color: inherit; }
   background-position: center;
   transition: transform 0.18s ease, outline-color 0.18s ease;
   outline: 2px solid transparent;
+  position: relative;
+  isolation: isolate; /* lets the scrim sit between background and label */
+  overflow: hidden;
+}
+/* Bottom scrim so the light label stays readable on light artwork */
+.art-item::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(30, 30, 24, 0.6), transparent);
+  z-index: -1;
+  pointer-events: none;
 }
 .art-item:hover { transform: scale(1.02); outline-color: var(--cyan); }
 @media (prefers-reduced-motion: reduce) { .art-item:hover { transform: none; } }

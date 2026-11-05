@@ -154,7 +154,7 @@ const art = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      medium: z.enum(['ink', 'watercolor', 'acrylic', 'oil']),
+      medium: z.enum(['ink', 'watercolor', 'acrylic', 'oil', 'digital']),
       year: z.number().optional(),
       image: image().optional(),
     }),
