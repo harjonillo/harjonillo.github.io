@@ -780,7 +780,9 @@ dialog.lightbox .lightbox-close:hover { background: var(--cyan); border-color: v
 
 /* ---- index ---- */
 .journal-head .page-title { margin-bottom: 1rem; }
+.journal-head { margin-bottom: 2.5rem; } /* space above the first year label */
 .journal-intro { max-width: 85%; line-height: 1.75; }
+.journal-ai-note { max-width: 85%; margin-top: 0.8rem; font-size: var(--fs-sm); font-style: italic; }
 .journal-empty { margin-top: 2.5rem; }
 .journal-filters { margin: 2.2rem 0 2.5rem; }
 .journal-filters button { min-height: 32px; }
