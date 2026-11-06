@@ -15,7 +15,7 @@ research, opinions about good scientific visualizations, maybe even movies.
 ## But why writing??
 I was motivated to start writing when I started exploring the AI safety space,
 and learned that concise, transparent reasoning without LLM use is a highly valued 
-skill. I never regarded myself as particularly eloquent; in fact, I always thought
+skill. I never regarded myself particularly eloquent; I always thought
 I best communicated through figures, drawings, and charts. However, in the age of
 AI, where both real research and pseudointellectual content[^1] flood the knowledge
 pool, human cognition is at risk, and language is at its core, both as the 
