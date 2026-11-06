@@ -10,6 +10,12 @@ permissions:
   pages: write
   id-token: write
 
+# One deploy at a time: a push made while another deploy is running waits for
+# it instead of colliding ("in progress deployment") or cancelling it midway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install, build, and upload site
-        uses: withastro/action@v3
+        uses: withastro/action@v6
         with:
           node-version: 22
 
@@ -30,4 +36,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
