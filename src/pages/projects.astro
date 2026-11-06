@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import Eyebrow from '../components/Eyebrow.astro';
+import { getJournal } from '../lib/journal';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(
@@ -11,6 +12,15 @@ const rendered = await Promise.all(
 );
 const featured = rendered.filter(({ project }) => project.data.featured);
 const rest = rendered.filter(({ project }) => !project.data.featured);
+
+// "Journal →" on projects that journal entries point at, filtered to the thread
+// of the most recent such entry (getJournal() is newest first, drafts excluded
+// in production).
+const journalLinks = new Map<string, string>();
+for (const e of await getJournal()) {
+  const id = e.data.project?.id;
+  if (id && !journalLinks.has(id)) journalLinks.set(id, `/journal?thread=${e.data.thread}`);
+}
 ---
 
 <Base
@@ -22,7 +32,7 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
 
   {
     featured.map(({ project, Content }) => (
-      <section class="feature">
+      <section class="feature" id={project.id}>
         <div>
           <span class="meta">FEATURED · {project.data.demo ? 'LIVE' : 'UPCOMING'}</span>
           <h3>{project.data.title}</h3>
@@ -32,10 +42,11 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
           <p class="meta" style="margin-top: 0.8rem;">
             {project.data.stack.join(' · ')}
           </p>
-          {(project.data.repo || project.data.demo) && (
+          {(project.data.repo || project.data.demo || journalLinks.has(project.id)) && (
             <div class="project-links">
               {project.data.repo && <a href={project.data.repo}>Repo →</a>}
               {project.data.demo && <a href={project.data.demo}>Demo →</a>}
+              {journalLinks.has(project.id) && <a href={journalLinks.get(project.id)}>Journal →</a>}
             </div>
           )}
         </div>
@@ -55,7 +66,7 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
   <section class="grid2">
     {
       rest.map(({ project, Content }) => (
-        <Card>
+        <Card id={project.id}>
           <span class="meta">{project.data.category}</span>
           <h3 style="margin-top:0.4rem;">{project.data.title}</h3>
           <div class="muted" style="font-size:0.93rem;">
@@ -64,10 +75,11 @@ const rest = rendered.filter(({ project }) => !project.data.featured);
           <p class="meta" style="margin-top:0.7rem;">
             {project.data.stack.join(' · ')}
           </p>
-          {(project.data.repo || project.data.demo) && (
+          {(project.data.repo || project.data.demo || journalLinks.has(project.id)) && (
             <div class="project-links">
               {project.data.repo && <a href={project.data.repo}>Repo →</a>}
               {project.data.demo && <a href={project.data.demo}>Demo →</a>}
+              {journalLinks.has(project.id) && <a href={journalLinks.get(project.id)}>Journal →</a>}
             </div>
           )}
         </Card>
