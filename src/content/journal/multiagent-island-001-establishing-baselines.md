@@ -21,7 +21,7 @@ During BlueDot's technical AI safety course, I've learned how
 RLHF/RLAIHF, constitutions, and personas dictate how models behave, but these can vary 
 with environment (hence evaluation awareness research), degrade over longer sessions,
 or pretty much behave unexpectedly. AI can also have internal motives that they
-can decide to hide, if in conflict with human instructions.
+can decide to hide, if in conflict with human instructions[^1].
 This is pretty much what misalignment is all about, but I've started wondering
 if it's possible that the reward conditions chosen during training may simply 
 have some incompatibility or conflicts in the various situations these agents are deployed, resulting in natural
@@ -43,8 +43,10 @@ I enumerated above, I decided to start with this toy model, with the following q
 what would agents decide to do?
 - How would they distribute resources shared among them? If agents were able to
 decide what they wanted to do for themselves, how will they cooperate?
-- How would their personas evolve as a function of environment and initial
+- How would their personas/identities evolve as a function of environment and initial
 conditions? Would proximity to the sea or river turn them into the island's fisherman?
+
+[^1]: TODO: citations
 
 
 ## Why I built it this way
