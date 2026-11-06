@@ -1,6 +1,6 @@
 ---
 title: Hello, world!
-date: 2026-11-06
+date: 2026-11-06 18:00
 summary: What this journal is for
 thread: meta
 entry: 1

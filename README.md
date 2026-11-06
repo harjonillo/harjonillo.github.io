@@ -28,15 +28,16 @@ npm run preview # serve the build locally
 ## Writing in the journal
 
 Entries live in `src/content/journal/`, one Markdown file each. Name the file
-`<thread>-<NNN>-<short-name>.md`, e.g. `llm-abm-002-encounters.md`; the file
-name (without `.md`) becomes the URL: `/journal/llm-abm-002-encounters`.
+`<thread>-<NNN>-<short-name>.md`, e.g. `multiagent-island-002-encounters.md`;
+the file name (without `.md`) becomes the URL:
+`/journal/multiagent-island-002-encounters`.
 
 ```md
 ---
 title: 'Encounters: proximity first, then a decision'
-date: 2026-10-29
+date: 2026-10-29 19:30
 summary: One line, shown on /journal and under the title.
-thread: llm-abm
+thread: multiagent-island
 entry: 2
 project: multiagent-island
 draft: true
@@ -47,6 +48,9 @@ draft: true
 Text…
 ```
 
+- **`date`** is `2026-10-29`, or `2026-10-29 19:30` to show a time too
+  (24-hour, shown exactly as written). Entries on the same day are ordered by
+  time.
 - **`thread`** must be one of the names on line 9 of `src/lib/journal.ts`
   (`THREADS`). To start a new thread, add its name there first, or the build
   fails.

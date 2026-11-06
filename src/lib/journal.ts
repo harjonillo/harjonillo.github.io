@@ -6,7 +6,7 @@ export type JournalEntry = CollectionEntry<'journal'>;
  * Threads an entry may belong to. A `thread` not listed here fails the build,
  * so a typo can't quietly create a new filter chip. Add a line to start a thread.
  */
-export const THREADS = ['meta', 'llm-abm', 'bluedot', 'design'] as const;
+export const THREADS = ['meta', 'multiagent-island', 'bluedot', 'design'] as const;
 
 /** Drafts show in `npm run dev` and are left out of production builds. */
 const showDrafts = !import.meta.env.PROD;
@@ -56,12 +56,23 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 });
 
-/** "29 OCT" (index rows) */
-export const formatDay = (d: Date) => dayFmt.format(d).toUpperCase();
-/** "29 Oct 2026" (entry eyebrow, which uppercases it) */
-export const formatDate = (d: Date) => dateFmt.format(d);
-/** "2026-10-29" for <time datetime> */
-export const isoDate = (d: Date) => d.toISOString().slice(0, 10);
+const timeFmt = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'UTC',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+
+/** True if the entry's date was written with a time ("2026-11-06 19:30"). */
+export const hasTime = (d: Date) => d.getUTCHours() !== 0 || d.getUTCMinutes() !== 0;
+const withTime = (d: Date, sep: string) => (hasTime(d) ? `${sep}${timeFmt.format(d)}` : '');
+
+/** "29 OCT", or "29 OCT · 19:30" with a time (index rows) */
+export const formatDay = (d: Date) => dayFmt.format(d).toUpperCase() + withTime(d, ' · ');
+/** "29 Oct 2026", or "29 Oct 2026, 19:30" (entry eyebrow, which uppercases it) */
+export const formatDate = (d: Date) => dateFmt.format(d) + withTime(d, ', ');
+/** "2026-10-29" or "2026-10-29T19:30" for <time datetime> */
+export const isoDate = (d: Date) => d.toISOString().slice(0, hasTime(d) ? 16 : 10);
 export const yearOf = (d: Date) => d.getUTCFullYear();
 
 /** Nearest lower and higher entry in the same thread, among `all`. */
